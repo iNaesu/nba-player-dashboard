@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function ProfileCard(props) {
@@ -41,6 +40,7 @@ function PlayerAvatar(props) {
     </div>
   );
 }
+
 function SimilarPlayersCard(props) {
   return (
     <div>
@@ -62,14 +62,17 @@ function LeagueComparisonCard(props) {
 
       <h3>Vs. League</h3>
 
+      {props.ppgLeaderName}
       {props.leaderPpg}
       {props.playerPpg}
       {props.avgPpg}
 
+      {props.apgLeaderName}
       {props.leaderApg}
       {props.playerApg}
       {props.avgApg}
 
+      {props.rpgLeaderName}
       {props.leaderRpg}
       {props.playerRpg}
       {props.avgRpg}
@@ -96,10 +99,16 @@ class App extends Component {
         <SimilarPlayersCard name='Kyrie Irving'/>
 
         <LeagueComparisonCard
+          ppgLeaderName='Russell Westbrook'
           leaderPpg='30' playerPpg='21.4' avgPpg='5.4'
+
+          apgLeaderName='James Harden'
           leaderApg='11' playerApg='4.4' avgApg='2.4'
+
+          rpgLeaderName='Hassan Whiteside'
           leaderRpg='15' playerRpg='2.1' avgRpg='5.4'
         />
+
       </div>
     );
   }
