@@ -46,7 +46,10 @@ class StatCard extends React.Component {
           width={400} height={400}
           data={[
             {idx: 0, statValue: this.state.value},
-            {idx: 1, statValue: this.state.leagueLeaderValue},
+            {
+              idx: 1,
+              statValue: this.state.leagueLeaderValue - this.state.value
+            },
           ]}
           x="idx" y="statValue"
           innerRadius={120}
@@ -131,9 +134,9 @@ class App extends Component {
         <ProfileCard name='Kyrie Irving' team='Cleveland Cavaliers' position='point guard' />
 
         <div className='stats-wrapper'>
-          <StatCard name='ppg' value={21.4} leagueLeaderValue={30 - 21.4} />
-          <StatCard name='apg' value={8.4} leagueLeaderValue={12 - 8.4} />
-          <StatCard name='rpg' value={2.1} leagueLeaderValue={15 - 2.1} />
+          <StatCard name='ppg' value={21.4} leagueLeaderValue={30} />
+          <StatCard name='apg' value={8.4} leagueLeaderValue={12} />
+          <StatCard name='rpg' value={2.1} leagueLeaderValue={15} />
         </div>
 
         <SimilarPlayersCard name='Kyrie Irving'/>
