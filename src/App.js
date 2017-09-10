@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { VictoryPie, VictoryLabel } from 'victory';
 import './App.css';
+
+const playerStats = [
+  {quarter: 1, earnings: 13000},
+  {quarter: 2, earnings: 16500},
+  {quarter: 3, earnings: 14250},
+  {quarter: 4, earnings: 19000}
+];
 
 function ProfileCard(props) {
   return (
@@ -13,15 +22,47 @@ function ProfileCard(props) {
   );
 }
 
-function StatCard(props) {
-  return (
-    <div>
+class StatCard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: 0,
+      leagueLeaderValue: 1
+    };
+  }
 
-      <h2>{props.name}</h2>
-      <p>{props.value}</p>
+  componentDidMount() {
+    let value = this.props.value;
+    let leagueLeaderValue = this.props.leagueLeaderValue;
+    this.setState({value, leagueLeaderValue});
+  }
 
-    </div>
-  );
+  render() {
+    return (
+      <svg viewBox="0 0 400 400">
+
+        <VictoryPie
+          animate={{duration: 1000}}
+          width={400} height={400}
+          data={[
+            {idx: 0, statValue: this.state.value},
+            {idx: 1, statValue: this.state.leagueLeaderValue},
+          ]}
+          x="idx" y="statValue"
+          innerRadius={120}
+          labelRadius={150}
+          labels={() => null}
+        />
+
+        <VictoryLabel
+          textAnchor="middle"
+          x={200} y={200}
+          text={this.props.name}
+        />
+
+      </svg>
+    );
+  }
 }
 
 function PlayerAvatar(props) {
@@ -85,15 +126,14 @@ class App extends Component {
   render() {
     return (
       <div className='app'>
-
         <h1>NBA Player Dashboard</h1>
 
         <ProfileCard name='Kyrie Irving' team='Cleveland Cavaliers' position='point guard' />
 
         <div className='stats-wrapper'>
-          <StatCard name='ppg' value='21.4' />
-          <StatCard name='apg' value='4.4' />
-          <StatCard name='rpg' value='2.1' />
+          <StatCard name='ppg' value={21.4} leagueLeaderValue={30 - 21.4} />
+          <StatCard name='apg' value={8.4} leagueLeaderValue={12 - 8.4} />
+          <StatCard name='rpg' value={2.1} leagueLeaderValue={15 - 2.1} />
         </div>
 
         <SimilarPlayersCard name='Kyrie Irving'/>
