@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { VictoryPie, VictoryLabel } from 'victory';
+import {
+  VictoryPie, VictoryLabel, VictoryChart, VictoryGroup,
+  VictoryStack, VictoryBar, VictoryTooltip
+} from 'victory';
 import './App.css';
-
-const playerStats = [
-  {quarter: 1, earnings: 13000},
-  {quarter: 2, earnings: 16500},
-  {quarter: 3, earnings: 14250},
-  {quarter: 4, earnings: 19000}
-];
 
 function ProfileCard(props) {
   return (
@@ -106,20 +101,39 @@ function LeagueComparisonCard(props) {
 
       <h3>Vs. League</h3>
 
-      {props.ppgLeaderName}
-      {props.leaderPpg}
-      {props.playerPpg}
-      {props.avgPpg}
+      <VictoryChart domain={{x: [0, 4], y: [0, 35]}}>
 
-      {props.apgLeaderName}
-      {props.leaderApg}
-      {props.playerApg}
-      {props.avgApg}
+        <VictoryGroup offset={20} style={{ data: {width: 15}}}>
+          <VictoryBar data={[{x: 1, y: props.playerPpg}]} />
+          <VictoryStack>
+            <VictoryBar data={[{x: 1, y: props.averagePpg}]} />
+            <VictoryBar
+              data={[{x: 1, y: props.leaderPpg - props.averagePpg}]}
+            />
+          </VictoryStack>
+        </VictoryGroup>
 
-      {props.rpgLeaderName}
-      {props.leaderRpg}
-      {props.playerRpg}
-      {props.avgRpg}
+        <VictoryGroup offset={20} style={{ data: {width: 15}}}>
+          <VictoryBar data={[{x: 2, y: props.playerApg}]} />
+          <VictoryStack>
+            <VictoryBar data={[{x: 2, y: props.averageApg}]} />
+            <VictoryBar
+              data={[{x: 2, y: props.leaderApg - props.averageApg}]}
+            />
+          </VictoryStack>
+        </VictoryGroup>
+
+        <VictoryGroup offset={20} style={{ data: {width: 15}}}>
+          <VictoryBar data={[{x: 3, y: props.playerRpg}]} />
+          <VictoryStack>
+            <VictoryBar data={[{x: 3, y: props.averageRpg}]} />
+            <VictoryBar
+              data={[{x: 3, y: props.leaderRpg - props.averageRpg}]}
+            />
+          </VictoryStack>
+        </VictoryGroup>
+
+      </VictoryChart>
 
     </div>
   );
@@ -131,7 +145,9 @@ class App extends Component {
       <div className='app'>
         <h1>NBA Player Dashboard</h1>
 
-        <ProfileCard name='Kyrie Irving' team='Cleveland Cavaliers' position='point guard' />
+        <ProfileCard
+          name='Kyrie Irving' team='Cleveland Cavaliers' position='point guard'
+        />
 
         <div className='stats-wrapper'>
           <StatCard name='ppg' value={21.4} leagueLeaderValue={30} />
@@ -142,14 +158,16 @@ class App extends Component {
         <SimilarPlayersCard name='Kyrie Irving'/>
 
         <LeagueComparisonCard
+          playerName='Kyrie Irving'
+
           ppgLeaderName='Russell Westbrook'
-          leaderPpg='30' playerPpg='21.4' avgPpg='5.4'
+          leaderPpg={30} playerPpg={21.4} averagePpg={5.4}
 
           apgLeaderName='James Harden'
-          leaderApg='11' playerApg='4.4' avgApg='2.4'
+          leaderApg={11} playerApg={8.4} averageApg={2.4}
 
           rpgLeaderName='Hassan Whiteside'
-          leaderRpg='15' playerRpg='2.1' avgRpg='5.4'
+          leaderRpg={15} playerRpg={2.1} averageRpg={5.4}
         />
 
       </div>
