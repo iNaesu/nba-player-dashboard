@@ -9,7 +9,7 @@ function ProfileCard(props) {
   return (
     <div>
 
-      <h1>{props.name}</h1>
+      <h1>{props.playerName}</h1>
       <p>{props.team}</p>
       <p>{props.position}</p>
 
@@ -55,7 +55,7 @@ class StatCard extends React.Component {
         <VictoryLabel
           textAnchor="middle"
           x={200} y={200}
-          text={this.props.name}
+          text={this.props.statName}
         />
 
       </svg>
@@ -67,7 +67,7 @@ function PlayerAvatar(props) {
   return (
     <div>
 
-      <p>{props.name}</p>
+      <p>{props.playerName}</p>
 
       <h3>{props.ppg}</h3>
       <p>PPG</p>
@@ -86,10 +86,18 @@ function SimilarPlayersCard(props) {
 
       <h3>Similar Players</h3>
 
-      <PlayerAvatar name='Stephen Curry' ppg='22.3' apg='6.6' rpg='2.1' />
-      <PlayerAvatar name='John Wall' ppg='22.3' apg='6.6' rpg='2.1' />
-      <PlayerAvatar name='Russell Westbrook' ppg='22.3' apg='6.6' rpg='2.1' />
-      <PlayerAvatar name='Isaiah Thomas' ppg='22.3' apg='6.6' rpg='2.1' />
+      <PlayerAvatar
+        playerName='Stephen Curry' ppg='22.3' apg='6.6' rpg='2.1'
+      />
+      <PlayerAvatar
+        playerName='John Wall' ppg='22.3' apg='6.6' rpg='2.1'
+      />
+      <PlayerAvatar
+        playerName='Russell Westbrook' ppg='22.3' apg='6.6' rpg='2.1'
+      />
+      <PlayerAvatar
+        playerName='Isaiah Thomas' ppg='22.3' apg='6.6' rpg='2.1'
+      />
 
     </div>
   );
@@ -160,7 +168,8 @@ function LeagueComparisonCard(props) {
             data={[
               {
                 x: i + 1,
-                y: statList[i].leagueLeaderValue - statList[i].leagueAverageValue,
+                y: statList[i].leagueLeaderValue
+                    - statList[i].leagueAverageValue,
                 label: leagueLeaderLabel
               }
             ]}
@@ -194,16 +203,18 @@ class App extends Component {
         <h1>NBA Player Dashboard</h1>
 
         <ProfileCard
-          name='Kyrie Irving' team='Cleveland Cavaliers' position='point guard'
+          playerName='Kyrie Irving'
+          team='Cleveland Cavaliers'
+          position='point guard'
         />
 
         <div className='stats-wrapper'>
-          <StatCard name='ppg' value={21.4} leagueLeaderValue={30} />
-          <StatCard name='apg' value={8.4} leagueLeaderValue={12} />
-          <StatCard name='rpg' value={2.1} leagueLeaderValue={15} />
+          <StatCard statName='ppg' value={21.4} leagueLeaderValue={30} />
+          <StatCard statName='apg' value={8.4} leagueLeaderValue={12} />
+          <StatCard statName='rpg' value={2.1} leagueLeaderValue={15} />
         </div>
 
-        <SimilarPlayersCard name='Kyrie Irving'/>
+        <SimilarPlayersCard playerName='Kyrie Irving'/>
 
         <LeagueComparisonCard
           playerName='Kyrie Irving'

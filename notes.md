@@ -4,4 +4,4 @@
 * SCSS
 
 # Todo
-* Rename name instances to playerName, statName etc
+* Explore using transition instead of animation
