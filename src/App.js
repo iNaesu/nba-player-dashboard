@@ -147,6 +147,7 @@ function LeagueComparisonCard(props) {
     /* The group of bar charts */
     const groupOfBars = (
       <VictoryGroup
+        key={i}
         offset={20} style={{ data: {width: 15}}}
         labelComponent={<VictoryTooltip/>}
       >
