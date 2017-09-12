@@ -96,43 +96,91 @@ function SimilarPlayersCard(props) {
 }
 
 function LeagueComparisonCard(props) {
+  const statList = [
+    {
+      'statType': 'ppg',
+      'leagueLeaderName': props.ppgLeaderName,
+      'leagueLeaderValue': props.leaderPpg,
+      'leagueAverageValue': props.averagePpg,
+      'playerValue': props.playerPpg
+    },
+    {
+      'statType': 'apg',
+      'leagueLeaderName': props.apgLeaderName,
+      'leagueLeaderValue': props.leaderApg,
+      'leagueAverageValue': props.averageApg,
+      'playerValue': props.playerApg
+    },
+    {
+      'statType': 'rpg',
+      'leagueLeaderName': props.rpgLeaderName,
+      'leagueLeaderValue': props.leaderRpg,
+      'leagueAverageValue': props.averageRpg,
+      'playerValue': props.playerRpg
+    },
+  ]
+
+  /* Create group of bar charts. One each for ppg, apg and rpg. Each bar chart
+   * group is to have 1 bar for the player's stat, as well as another bar which
+   * represents the league leader and league average for that stat
+   */
+  const groupOfBarsList = []
+  for (var i = 0; i < statList.length; i++) {
+    /* Tooltip text for each bar chart */
+    const playerLabel =
+      props.playerName + ' - ' + statList[i].playerValue + statList[i].statType;
+    const leagueLeaderLabel =
+        statList[i].leagueLeaderName
+        + ' - ' + statList[i].leagueLeaderValue + statList[i].statType;
+    const leagueAverageLabel =
+        'League Average - '
+        + statList[i].leagueAverageValue + statList[i].statType;
+
+    /* The group of bar charts */
+    const groupOfBars = (
+      <VictoryGroup
+        offset={20} style={{ data: {width: 15}}}
+        labelComponent={<VictoryTooltip/>}
+      >
+
+        <VictoryBar data={[
+          {x: i + 1, y: statList[i].playerValue, label: playerLabel}
+        ]} />
+
+        <VictoryStack>
+          <VictoryBar
+            data={[
+              {
+                x: i + 1, y: statList[i].leagueAverageValue,
+                label: leagueAverageLabel
+              }
+            ]}
+          />
+          <VictoryBar
+            data={[
+              {
+                x: i + 1,
+                y: statList[i].leagueLeaderValue - statList[i].leagueAverageValue,
+                label: leagueLeaderLabel
+              }
+            ]}
+          />
+        </VictoryStack>
+
+      </VictoryGroup>
+    );
+
+    /* Add bar chart group to list */
+    groupOfBarsList.push(groupOfBars);
+  }
+
   return (
     <div>
 
       <h3>Vs. League</h3>
 
       <VictoryChart domain={{x: [0, 4], y: [0, 35]}}>
-
-        <VictoryGroup offset={20} style={{ data: {width: 15}}}>
-          <VictoryBar data={[{x: 1, y: props.playerPpg}]} />
-          <VictoryStack>
-            <VictoryBar data={[{x: 1, y: props.averagePpg}]} />
-            <VictoryBar
-              data={[{x: 1, y: props.leaderPpg - props.averagePpg}]}
-            />
-          </VictoryStack>
-        </VictoryGroup>
-
-        <VictoryGroup offset={20} style={{ data: {width: 15}}}>
-          <VictoryBar data={[{x: 2, y: props.playerApg}]} />
-          <VictoryStack>
-            <VictoryBar data={[{x: 2, y: props.averageApg}]} />
-            <VictoryBar
-              data={[{x: 2, y: props.leaderApg - props.averageApg}]}
-            />
-          </VictoryStack>
-        </VictoryGroup>
-
-        <VictoryGroup offset={20} style={{ data: {width: 15}}}>
-          <VictoryBar data={[{x: 3, y: props.playerRpg}]} />
-          <VictoryStack>
-            <VictoryBar data={[{x: 3, y: props.averageRpg}]} />
-            <VictoryBar
-              data={[{x: 3, y: props.leaderRpg - props.averageRpg}]}
-            />
-          </VictoryStack>
-        </VictoryGroup>
-
+        {groupOfBarsList}
       </VictoryChart>
 
     </div>
