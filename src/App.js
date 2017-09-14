@@ -128,61 +128,43 @@ function LeagueComparisonCard(props) {
     },
   ]
 
-  /* Create group of bar charts. One each for ppg, apg and rpg. Each bar chart
-   * group is to have 1 bar for the player's stat, as well as another bar which
-   * represents the league leader and league average for that stat
-   */
-  const groupOfBarsList = []
-  for (var i = 0; i < statList.length; i++) {
-    /* Tooltip text for each bar chart */
-    const playerLabel =
-      props.playerName + ' - ' + statList[i].playerValue + statList[i].statType;
-    const leagueLeaderLabel =
-        statList[i].leagueLeaderName
-        + ' - ' + statList[i].leagueLeaderValue + statList[i].statType;
-    const leagueAverageLabel =
-        'League Average - '
-        + statList[i].leagueAverageValue + statList[i].statType;
+  const groupOfBarsList = statList.map((stat, idx) =>
+    <VictoryGroup
+      key={stat.statType} offset={20} style={{ data: {width: 15}}}
+      labelComponent={<VictoryTooltip/>}
+    >
 
-    /* The group of bar charts */
-    const groupOfBars = (
-      <VictoryGroup
-        key={i}
-        offset={20} style={{ data: {width: 15}}}
-        labelComponent={<VictoryTooltip/>}
-      >
+      <VictoryBar data={[
+        {
+          x: idx + 1, y: stat.playerValue,
+          label: props.playerName + ' - ' + stat.playerValue + stat.statType
+        }
+      ]} />
 
-        <VictoryBar data={[
-          {x: i + 1, y: statList[i].playerValue, label: playerLabel}
-        ]} />
+      <VictoryStack>
+        <VictoryBar
+          data={[
+            {
+              x: idx + 1, y: stat.leagueAverageValue,
+              label: 'League Average - ' + stat.leagueAverageValue
+                      + stat.statType
+            }
+          ]}
+        />
+        <VictoryBar
+          data={[
+            {
+              x: idx + 1,
+              y: stat.leagueLeaderValue - stat.leagueAverageValue,
+              label: stat.leagueLeaderName + ' - ' +
+                      stat.leagueLeaderValue + stat.statType
+            }
+          ]}
+        />
+      </VictoryStack>
 
-        <VictoryStack>
-          <VictoryBar
-            data={[
-              {
-                x: i + 1, y: statList[i].leagueAverageValue,
-                label: leagueAverageLabel
-              }
-            ]}
-          />
-          <VictoryBar
-            data={[
-              {
-                x: i + 1,
-                y: statList[i].leagueLeaderValue
-                    - statList[i].leagueAverageValue,
-                label: leagueLeaderLabel
-              }
-            ]}
-          />
-        </VictoryStack>
-
-      </VictoryGroup>
-    );
-
-    /* Add bar chart group to list */
-    groupOfBarsList.push(groupOfBars);
-  }
+    </VictoryGroup>
+  );
 
   return (
     <div>
