@@ -5,6 +5,57 @@ import {
 } from 'victory';
 import './App.css';
 
+class App extends Component {
+  render() {
+    return (
+      <div className='app'>
+        <h1>NBA Player Dashboard</h1>
+
+        <PlayerSearchBox placeholderText='Player Search' />
+        <ProfileCard
+          playerName='Kyrie Irving'
+          team='Cleveland Cavaliers'
+          position='point guard'
+        />
+
+        <div className='stats-wrapper'>
+          <StatCard statName='ppg' value={21.4} leagueLeaderValue={30} />
+          <StatCard statName='apg' value={8.4} leagueLeaderValue={12} />
+          <StatCard statName='rpg' value={2.1} leagueLeaderValue={15} />
+        </div>
+
+        <SimilarPlayersCard playerName='Kyrie Irving'/>
+
+        <LeagueComparisonCard
+          playerName='Kyrie Irving'
+
+          ppgLeaderName='Russell Westbrook'
+          leaderPpg={32} playerPpg={21.4} averagePpg={5.4}
+
+          apgLeaderName='James Harden'
+          leaderApg={11} playerApg={8.4} averageApg={2.4}
+
+          rpgLeaderName='Hassan Whiteside'
+          leaderRpg={15} playerRpg={2.1} averageRpg={5.4}
+        />
+
+      </div>
+    );
+  }
+}
+
+export default App;
+
+function PlayerSearchBox(props) {
+  return (
+    <form>
+      <input
+        type="text" name="playerSearch" placeholder={props.placeholderText}
+      />
+    </form>
+  );
+}
+
 function ProfileCard(props) {
   return (
     <div>
@@ -202,43 +253,3 @@ function range(start, end, interval) {
 
   return numbersList;
 }
-
-class App extends Component {
-  render() {
-    return (
-      <div className='app'>
-        <h1>NBA Player Dashboard</h1>
-
-        <ProfileCard
-          playerName='Kyrie Irving'
-          team='Cleveland Cavaliers'
-          position='point guard'
-        />
-
-        <div className='stats-wrapper'>
-          <StatCard statName='ppg' value={21.4} leagueLeaderValue={30} />
-          <StatCard statName='apg' value={8.4} leagueLeaderValue={12} />
-          <StatCard statName='rpg' value={2.1} leagueLeaderValue={15} />
-        </div>
-
-        <SimilarPlayersCard playerName='Kyrie Irving'/>
-
-        <LeagueComparisonCard
-          playerName='Kyrie Irving'
-
-          ppgLeaderName='Russell Westbrook'
-          leaderPpg={32} playerPpg={21.4} averagePpg={5.4}
-
-          apgLeaderName='James Harden'
-          leaderApg={11} playerApg={8.4} averageApg={2.4}
-
-          rpgLeaderName='Hassan Whiteside'
-          leaderRpg={15} playerRpg={2.1} averageRpg={5.4}
-        />
-
-      </div>
-    );
-  }
-}
-
-export default App;

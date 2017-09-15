@@ -5,9 +5,7 @@
 
 # Todo
 * Explore using transition instead of animation
-* Render y units
 * Add player images
-* Search box
 * Create some dummy data
 * style page - New branch
 * Add interactivity - New branch
