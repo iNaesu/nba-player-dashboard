@@ -24,7 +24,21 @@ class App extends Component {
           <StatCard statName='rpg' value={2.1} leagueLeaderValue={15} />
         </div>
 
-        <SimilarPlayersCard playerName='Kyrie Irving'/>
+        <SimilarPlayersCard
+          playerName='Kyrie Irving'
+
+          similarPlayer1='Stephen Curry'
+          ppg1='22.3' apg1='6.6' rpg1='2.1'
+
+          similarPlayer2='John Wall'
+          ppg2='20.3' apg2='6.6' rpg2='5.1'
+
+          similarPlayer3='Russell Westbrook'
+          ppg3='32' apg3='10' rpg3='11'
+
+          similarPlayer4='Isaiah Thomas'
+          ppg4='29' apg4='6.6' rpg4='1.1'
+        />
 
         <LeagueComparisonCard
           playerName='Kyrie Irving'
@@ -132,24 +146,45 @@ function PlayerAvatar(props) {
 }
 
 function SimilarPlayersCard(props) {
+
+  const similarPlayersList = [
+    {
+      'playerName': props.similarPlayer1,
+      'ppg': props.ppg1,
+      'apg': props.apg1,
+      'rpg': props.rpg1
+    },
+    {
+      'playerName': props.similarPlayer2,
+      'ppg': props.ppg2,
+      'apg': props.apg2,
+      'rpg': props.rpg2
+    },
+    {
+      'playerName': props.similarPlayer3,
+      'ppg': props.ppg3,
+      'apg': props.apg3,
+      'rpg': props.rpg3
+    },
+    {
+      'playerName': props.similarPlayer4,
+      'ppg': props.ppg4,
+      'apg': props.apg4,
+      'rpg': props.rpg4
+    },
+  ];
+
+  const playerAvatarList = similarPlayersList.map((player) =>
+    <PlayerAvatar
+      playerName={player.playerName}
+      ppg={player.ppg} apg={player.apg} rpg={player.rpg}
+    />
+  );
+
   return (
     <div>
-
       <h3>Similar Players</h3>
-
-      <PlayerAvatar
-        playerName='Stephen Curry' ppg='22.3' apg='6.6' rpg='2.1'
-      />
-      <PlayerAvatar
-        playerName='John Wall' ppg='22.3' apg='6.6' rpg='2.1'
-      />
-      <PlayerAvatar
-        playerName='Russell Westbrook' ppg='22.3' apg='6.6' rpg='2.1'
-      />
-      <PlayerAvatar
-        playerName='Isaiah Thomas' ppg='22.3' apg='6.6' rpg='2.1'
-      />
-
+      {playerAvatarList}
     </div>
   );
 }
