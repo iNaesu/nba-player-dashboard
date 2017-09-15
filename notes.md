@@ -4,5 +4,10 @@
 * SCSS
 
 # Todo
-* Understand keys and explore using map instead of a for loop
 * Explore using transition instead of animation
+* Render y units
+* Add player images
+* Search box
+* Create some dummy data
+* style page - New branch
+* Add interactivity - New branch
