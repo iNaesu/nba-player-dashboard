@@ -166,18 +166,41 @@ function LeagueComparisonCard(props) {
     </VictoryGroup>
   );
 
+  /* Round up to closest 5 */
+  const yMax = Math.ceil(props.leaderPpg / 5) * 5;
+
   return (
     <div>
 
       <h3>Vs. League</h3>
 
-      <VictoryChart domain={{x: [0, 4], y: [0, 35]}}>
+      <VictoryChart domain={{x: [0, 4], y: [0, yMax]}}>
         {groupOfBarsList}
         <VictoryAxis tickValues={statList.map((stat) => stat['statType'])} />
+        <VictoryAxis dependentAxis tickValues={range(0, yMax, 5)} />
       </VictoryChart>
 
     </div>
   );
+}
+
+/**
+ * Returns a list of numbers from start to end. Adjacent numbers in the list are
+ * interval apart.
+ **/
+function range(start, end, interval) {
+  let numbersList = [];
+
+  if (end < start) {
+  	return numbersList;
+  }
+  let number = start;
+  while(number <= end) {
+    numbersList.push(number);
+    number = number + interval;
+  }
+
+  return numbersList;
 }
 
 class App extends Component {
@@ -204,7 +227,7 @@ class App extends Component {
           playerName='Kyrie Irving'
 
           ppgLeaderName='Russell Westbrook'
-          leaderPpg={30} playerPpg={21.4} averagePpg={5.4}
+          leaderPpg={32} playerPpg={21.4} averagePpg={5.4}
 
           apgLeaderName='James Harden'
           leaderApg={11} playerApg={8.4} averageApg={2.4}
