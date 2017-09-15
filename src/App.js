@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   VictoryPie, VictoryLabel, VictoryChart, VictoryGroup,
-  VictoryStack, VictoryBar, VictoryTooltip
+  VictoryStack, VictoryBar, VictoryTooltip, VictoryAxis
 } from 'victory';
 import './App.css';
 
@@ -173,6 +173,7 @@ function LeagueComparisonCard(props) {
 
       <VictoryChart domain={{x: [0, 4], y: [0, 35]}}>
         {groupOfBarsList}
+        <VictoryAxis tickValues={statList.map((stat) => stat['statType'])} />
       </VictoryChart>
 
     </div>
