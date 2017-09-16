@@ -6,6 +6,22 @@ import {
 import './App.css';
 
 class App extends Component {
+  state = {
+    'currentPlayer': {
+      'playerInfo': null,
+      'similarPlayersList': []
+    },
+    'leagueStats': null
+  }
+
+  constructor(props) {
+    super(props);
+    this.state.currentPlayer.playerInfo = getCurrentPlayerInfo();
+    this.state.currentPlayer.similarPlayersList = getSimilarPlayersList();
+    this.state.leagueStats = getLeagueStats();
+    console.log(this.state);
+  }
+
   render() {
     return (
       <div className='app'>
@@ -60,6 +76,66 @@ class App extends Component {
 }
 
 export default App;
+
+function getCurrentPlayerInfo() {
+  return {
+    'name': 'Kyrie Irving',
+    'team': 'Cleveland Cavaliers',
+    'position': 'Point Guard',
+    'ppg': 21.1,
+    'apg': 6.7,
+    'rpg': 3.1
+  }
+}
+
+function getSimilarPlayersList() {
+  return [
+    {
+      'name': 'Stephen Curry',
+      'ppg': 24,
+      'apg': 6.6,
+      'rpg': 3.2
+    },
+    {
+      'name': 'Russell Westbrook',
+      'ppg': 32,
+      'apg': 11.8,
+      'rpg': 10.1,
+    },
+    {
+      'name': 'John Wall',
+      'ppg': 20.0,
+      'apg': 6.6,
+      'rpg': 5.5
+    },
+    {
+      'name': 'Isaiah Thomas',
+      'ppg': 29.7,
+      'apg': 5.4,
+      'rpg': 1.3
+    }
+  ]
+}
+
+function getLeagueStats() {
+  return {
+    'ppg': {
+        'leagueLeaderName': 'KAT',
+        'leagueLeaderValue': 32,
+        'leagueAvgValue': 4
+    },
+    'apg': {
+        'leagueLeaderName': 'KAT',
+        'leagueLeaderValue': 32,
+        'leagueAvgValue': 4
+    },
+    'rpg': {
+        'leagueLeaderName': 'KAT',
+        'leagueLeaderValue': 32,
+        'leagueAvgValue': 4
+    }
+  }
+}
 
 function PlayerSearchBox(props) {
   return (
