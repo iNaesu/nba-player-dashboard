@@ -14,6 +14,7 @@ class App extends Component {
         <PlayerSearchBox placeholderText='Player Search' />
         <ProfileCard
           playerName='Kyrie Irving'
+          img='img/irving.png'
           team='Cleveland Cavaliers'
           position='point guard'
         />
@@ -27,16 +28,16 @@ class App extends Component {
         <SimilarPlayersCard
           playerName='Kyrie Irving'
 
-          similarPlayer1='Stephen Curry'
+          similarPlayer1='Stephen Curry' img1='img/curry.png'
           ppg1='22.3' apg1='6.6' rpg1='2.1'
 
-          similarPlayer2='John Wall'
+          similarPlayer2='John Wall' img2='img/wall.png'
           ppg2='20.3' apg2='6.6' rpg2='5.1'
 
-          similarPlayer3='Russell Westbrook'
+          similarPlayer3='Russell Westbrook' img3='img/westbrook.png'
           ppg3='32' apg3='10' rpg3='11'
 
-          similarPlayer4='Isaiah Thomas'
+          similarPlayer4='Isaiah Thomas' img4='img/thomas.png'
           ppg4='29' apg4='6.6' rpg4='1.1'
         />
 
@@ -75,6 +76,7 @@ function ProfileCard(props) {
     <div>
 
       <h1>{props.playerName}</h1>
+      <img src={props.img} alt={props.playerName} />
       <p>{props.team}</p>
       <p>{props.position}</p>
 
@@ -134,6 +136,7 @@ function PlayerAvatar(props) {
 
       <p>{props.playerName}</p>
 
+      <img src={props.img} alt={props.playerName} />
       <h3>{props.ppg}</h3>
       <p>PPG</p>
       <h3>{props.apg}</h3>
@@ -150,24 +153,28 @@ function SimilarPlayersCard(props) {
   const similarPlayersList = [
     {
       'playerName': props.similarPlayer1,
+      'img': props.img1,
       'ppg': props.ppg1,
       'apg': props.apg1,
       'rpg': props.rpg1
     },
     {
       'playerName': props.similarPlayer2,
+      'img': props.img2,
       'ppg': props.ppg2,
       'apg': props.apg2,
       'rpg': props.rpg2
     },
     {
       'playerName': props.similarPlayer3,
+      'img': props.img3,
       'ppg': props.ppg3,
       'apg': props.apg3,
       'rpg': props.rpg3
     },
     {
       'playerName': props.similarPlayer4,
+      'img': props.img4,
       'ppg': props.ppg4,
       'apg': props.apg4,
       'rpg': props.rpg4
@@ -176,7 +183,8 @@ function SimilarPlayersCard(props) {
 
   const playerAvatarList = similarPlayersList.map((player) =>
     <PlayerAvatar
-      playerName={player.playerName}
+      key={player.playerName}
+      playerName={player.playerName} img={player.img}
       ppg={player.ppg} apg={player.apg} rpg={player.rpg}
     />
   );
