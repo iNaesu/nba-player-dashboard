@@ -5,23 +5,7 @@ import {
 } from 'victory';
 import './App.css';
 
-class App extends Component {
-  state = {
-    'currentPlayer': {
-      'playerInfo': null,
-      'similarPlayersList': []
-    },
-    'leagueStats': null
-  }
-
-  constructor(props) {
-    super(props);
-    this.state.currentPlayer.playerInfo = getCurrentPlayerInfo();
-    this.state.currentPlayer.similarPlayersList = getSimilarPlayersList();
-    this.state.leagueStats = getLeagueStats();
-    console.log(this.state);
-  }
-
+export default class App extends Component {
   render() {
     return (
       <div className='app'>
@@ -29,45 +13,70 @@ class App extends Component {
 
         <PlayerSearchBox placeholderText='Player Search' />
         <ProfileCard
-          playerName='Kyrie Irving'
-          img='img/irving.png'
-          team='Cleveland Cavaliers'
-          position='point guard'
+          playerName={this.props.currentPlayer.playerName}
+          img={this.props.currentPlayer.img}
+          team={this.props.currentPlayer.team}
+          position={this.props.currentPlayer.position}
         />
 
         <div className='stats-wrapper'>
-          <StatCard statName='ppg' value={21.4} leagueLeaderValue={30} />
-          <StatCard statName='apg' value={8.4} leagueLeaderValue={12} />
-          <StatCard statName='rpg' value={2.1} leagueLeaderValue={15} />
+          <StatCard
+            statName='ppg' value={this.props.currentPlayer.ppg}
+            leagueLeaderValue={this.props.leagueStats.ppg.leagueLeaderValue}
+          />
+          <StatCard
+            statName='apg' value={this.props.currentPlayer.apg}
+            leagueLeaderValue={this.props.leagueStats.apg.leagueLeaderValue}
+          />
+          <StatCard
+            statName='rpg' value={this.props.currentPlayer.rpg}
+            leagueLeaderValue={this.props.leagueStats.rpg.leagueLeaderValue}
+          />
         </div>
 
         <SimilarPlayersCard
-          playerName='Kyrie Irving'
+          similarPlayer0={this.props.similarPlayersList[0].playerName}
+          img0={this.props.similarPlayersList[0].img}
+          ppg0={this.props.similarPlayersList[0].ppg}
+          apg0={this.props.similarPlayersList[0].apg}
+          rpg0={this.props.similarPlayersList[0].rpg}
 
-          similarPlayer1='Stephen Curry' img1='img/curry.png'
-          ppg1='22.3' apg1='6.6' rpg1='2.1'
+          similarPlayer1={this.props.similarPlayersList[1].playerName}
+          img1={this.props.similarPlayersList[1].img}
+          ppg1={this.props.similarPlayersList[1].ppg}
+          apg1={this.props.similarPlayersList[1].apg}
+          rpg1={this.props.similarPlayersList[1].rpg}
 
-          similarPlayer2='John Wall' img2='img/wall.png'
-          ppg2='20.3' apg2='6.6' rpg2='5.1'
+          similarPlayer2={this.props.similarPlayersList[2].playerName}
+          img2={this.props.similarPlayersList[2].img}
+          ppg2={this.props.similarPlayersList[2].ppg}
+          apg2={this.props.similarPlayersList[2].apg}
+          rpg2={this.props.similarPlayersList[2].rpg}
 
-          similarPlayer3='Russell Westbrook' img3='img/westbrook.png'
-          ppg3='32' apg3='10' rpg3='11'
-
-          similarPlayer4='Isaiah Thomas' img4='img/thomas.png'
-          ppg4='29' apg4='6.6' rpg4='1.1'
+          similarPlayer3={this.props.similarPlayersList[3].playerName}
+          img3={this.props.similarPlayersList[3].img}
+          ppg3={this.props.similarPlayersList[3].ppg}
+          apg3={this.props.similarPlayersList[3].apg}
+          rpg3={this.props.similarPlayersList[3].rpg}
         />
 
         <LeagueComparisonCard
-          playerName='Kyrie Irving'
+          playerName={this.props.currentPlayer.playerName}
 
-          ppgLeaderName='Russell Westbrook'
-          leaderPpg={32} playerPpg={21.4} averagePpg={5.4}
+          ppgLeaderName={this.props.leagueStats.ppg.leagueLeaderName}
+          leaderPpg={this.props.leagueStats.ppg.leagueLeaderValue}
+          playerPpg={this.props.currentPlayer.ppg}
+          averagePpg={this.props.leagueStats.ppg.leagueAverageValue}
 
-          apgLeaderName='James Harden'
-          leaderApg={11} playerApg={8.4} averageApg={2.4}
+          apgLeaderName={this.props.leagueStats.apg.leagueLeaderName}
+          leaderApg={this.props.leagueStats.apg.leagueLeaderValue}
+          playerApg={this.props.currentPlayer.apg}
+          averageApg={this.props.leagueStats.apg.leagueAverageValue}
 
-          rpgLeaderName='Hassan Whiteside'
-          leaderRpg={15} playerRpg={2.1} averageRpg={5.4}
+          rpgLeaderName={this.props.leagueStats.rpg.leagueLeaderName}
+          leaderRpg={this.props.leagueStats.rpg.leagueLeaderValue}
+          playerRpg={this.props.currentPlayer.rpg}
+          averageRpg={this.props.leagueStats.rpg.leagueAverageValue}
         />
 
       </div>
@@ -75,64 +84,61 @@ class App extends Component {
   }
 }
 
-export default App;
-
-function getCurrentPlayerInfo() {
-  return {
-    'name': 'Kyrie Irving',
+App.defaultProps = {
+  'currentPlayer': {
+    'playerName': 'Kyrie Irving',
+    'img': 'img/irving.png',
     'team': 'Cleveland Cavaliers',
     'position': 'Point Guard',
-    'ppg': 21.1,
-    'apg': 6.7,
-    'rpg': 3.1
-  }
-}
-
-function getSimilarPlayersList() {
-  return [
+    'ppg': 21.4,
+    'apg': 8.4,
+    'rpg': 2.1,
+  },
+  'similarPlayersList': [
     {
-      'name': 'Stephen Curry',
-      'ppg': 24,
+      'playerName': 'Stephen Curry',
+      'img': 'img/curry.png',
+      'ppg': 22.3,
       'apg': 6.6,
-      'rpg': 3.2
+      'rpg': 2.1
     },
     {
-      'name': 'Russell Westbrook',
+      'playerName': 'John Wall',
+      'img': 'img/wall.png',
+      'ppg': 20.3,
+      'apg': 6.6,
+      'rpg': 5.1
+    },
+    {
+      'playerName': 'Russell Westbrook',
+      'img': 'img/westbrook.png',
       'ppg': 32,
-      'apg': 11.8,
-      'rpg': 10.1,
+      'apg': 10,
+      'rpg': 11
     },
     {
-      'name': 'John Wall',
-      'ppg': 20.0,
+      'playerName': 'Isaiah Thomas',
+      'img': 'img/thomas.png',
+      'ppg': 29,
       'apg': 6.6,
-      'rpg': 5.5
-    },
-    {
-      'name': 'Isaiah Thomas',
-      'ppg': 29.7,
-      'apg': 5.4,
-      'rpg': 1.3
+      'rpg': 1.1
     }
-  ]
-}
-
-function getLeagueStats() {
-  return {
+  ],
+  'leagueStats': {
     'ppg': {
-        'leagueLeaderName': 'KAT',
-        'leagueLeaderValue': 32,
-        'leagueAvgValue': 4
+      'leagueLeaderName': 'Russell Westbrook',
+      'leagueLeaderValue': 32,
+      'leagueAverageValue': 5.4
     },
     'apg': {
-        'leagueLeaderName': 'KAT',
-        'leagueLeaderValue': 32,
-        'leagueAvgValue': 4
+      'leagueLeaderName': 'James Harden',
+      'leagueLeaderValue': 12.8,
+      'leagueAverageValue': 2.4
     },
     'rpg': {
-        'leagueLeaderName': 'KAT',
-        'leagueLeaderValue': 32,
-        'leagueAvgValue': 4
+      'leagueLeaderName': 'Hassan Whiteside',
+      'leagueLeaderValue': 15,
+      'leagueAverageValue': 6.4
     }
   }
 }
@@ -228,6 +234,13 @@ function SimilarPlayersCard(props) {
 
   const similarPlayersList = [
     {
+      'playerName': props.similarPlayer0,
+      'img': props.img0,
+      'ppg': props.ppg0,
+      'apg': props.apg0,
+      'rpg': props.rpg0
+    },
+    {
       'playerName': props.similarPlayer1,
       'img': props.img1,
       'ppg': props.ppg1,
@@ -247,13 +260,6 @@ function SimilarPlayersCard(props) {
       'ppg': props.ppg3,
       'apg': props.apg3,
       'rpg': props.rpg3
-    },
-    {
-      'playerName': props.similarPlayer4,
-      'img': props.img4,
-      'ppg': props.ppg4,
-      'apg': props.apg4,
-      'rpg': props.rpg4
     },
   ];
 
