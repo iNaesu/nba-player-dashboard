@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerAvatar from './PlayerAvatar.js'
+import '../style/components/SimilarPlayersCard.css';
 
 export default function SimilarPlayersCard(props) {
 
@@ -43,7 +44,7 @@ export default function SimilarPlayersCard(props) {
   );
 
   return (
-    <div className='card'>
+    <div className='SimilarPlayersCard card'>
       <h3>Similar Players</h3>
       {playerAvatarList}
     </div>

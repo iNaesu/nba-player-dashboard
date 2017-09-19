@@ -8,6 +8,6 @@
     * Make those components presentational - stateless
     * This means they will be functions instead of classes
 
-* Create some dummy data
 * style page - New branch
+    * Use a base spacing unit
 * Add interactivity - New branch

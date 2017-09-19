@@ -1,11 +1,11 @@
 import React from 'react';
-import '../style/components/App.css';
 /* Import components */
 import PlayerSearchBox from './PlayerSearchBox.js'
 import ProfileCard from './ProfileCard.js'
 import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
+import '../style/components/App.css';
 
 export default class App extends React.Component {
   render() {
@@ -16,72 +16,81 @@ export default class App extends React.Component {
 
           <PlayerSearchBox placeholderText='Player Search' />
 
-          <ProfileCard
-            playerName={this.props.currentPlayer.playerName}
-            img={this.props.currentPlayer.img}
-            team={this.props.currentPlayer.team}
-            position={this.props.currentPlayer.position}
-          />
+          <div className='all-data-cards-wrapper'>
 
-          <div className='stats-wrapper'>
-            <StatCard
-              statName='ppg' value={this.props.currentPlayer.ppg}
-              leagueLeaderValue={this.props.leagueStats.ppg.leagueLeaderValue}
+            <div className='ProfileCard-StatCards-wrapper'>
+              <ProfileCard
+                playerName={this.props.currentPlayer.playerName}
+                img={this.props.currentPlayer.img}
+                team={this.props.currentPlayer.team}
+                position={this.props.currentPlayer.position}
+              />
+
+              <div className='StatCards-wrapper'>
+                <StatCard
+                  id='ppg-card'
+                  statName='ppg' value={this.props.currentPlayer.ppg}
+                  leagueLeaderValue={this.props.leagueStats.ppg.leagueLeaderValue}
+                />
+                <StatCard
+                  id='apg-card'
+                  statName='apg' value={this.props.currentPlayer.apg}
+                  leagueLeaderValue={this.props.leagueStats.apg.leagueLeaderValue}
+                />
+                <StatCard
+                  id='rpg-card'
+                  statName='rpg' value={this.props.currentPlayer.rpg}
+                  leagueLeaderValue={this.props.leagueStats.rpg.leagueLeaderValue}
+                />
+              </div>
+            </div>
+
+            <SimilarPlayersCard
+              similarPlayer0={this.props.similarPlayersList[0].playerName}
+              img0={this.props.similarPlayersList[0].img}
+              ppg0={this.props.similarPlayersList[0].ppg}
+              apg0={this.props.similarPlayersList[0].apg}
+              rpg0={this.props.similarPlayersList[0].rpg}
+
+              similarPlayer1={this.props.similarPlayersList[1].playerName}
+              img1={this.props.similarPlayersList[1].img}
+              ppg1={this.props.similarPlayersList[1].ppg}
+              apg1={this.props.similarPlayersList[1].apg}
+              rpg1={this.props.similarPlayersList[1].rpg}
+
+              similarPlayer2={this.props.similarPlayersList[2].playerName}
+              img2={this.props.similarPlayersList[2].img}
+              ppg2={this.props.similarPlayersList[2].ppg}
+              apg2={this.props.similarPlayersList[2].apg}
+              rpg2={this.props.similarPlayersList[2].rpg}
+
+              similarPlayer3={this.props.similarPlayersList[3].playerName}
+              img3={this.props.similarPlayersList[3].img}
+              ppg3={this.props.similarPlayersList[3].ppg}
+              apg3={this.props.similarPlayersList[3].apg}
+              rpg3={this.props.similarPlayersList[3].rpg}
             />
-            <StatCard
-              statName='apg' value={this.props.currentPlayer.apg}
-              leagueLeaderValue={this.props.leagueStats.apg.leagueLeaderValue}
+
+            <LeagueComparisonCard
+              playerName={this.props.currentPlayer.playerName}
+
+              ppgLeaderName={this.props.leagueStats.ppg.leagueLeaderName}
+              leaderPpg={this.props.leagueStats.ppg.leagueLeaderValue}
+              playerPpg={this.props.currentPlayer.ppg}
+              averagePpg={this.props.leagueStats.ppg.leagueAverageValue}
+
+              apgLeaderName={this.props.leagueStats.apg.leagueLeaderName}
+              leaderApg={this.props.leagueStats.apg.leagueLeaderValue}
+              playerApg={this.props.currentPlayer.apg}
+              averageApg={this.props.leagueStats.apg.leagueAverageValue}
+
+              rpgLeaderName={this.props.leagueStats.rpg.leagueLeaderName}
+              leaderRpg={this.props.leagueStats.rpg.leagueLeaderValue}
+              playerRpg={this.props.currentPlayer.rpg}
+              averageRpg={this.props.leagueStats.rpg.leagueAverageValue}
             />
-            <StatCard
-              statName='rpg' value={this.props.currentPlayer.rpg}
-              leagueLeaderValue={this.props.leagueStats.rpg.leagueLeaderValue}
-            />
+
           </div>
-
-          <SimilarPlayersCard
-            similarPlayer0={this.props.similarPlayersList[0].playerName}
-            img0={this.props.similarPlayersList[0].img}
-            ppg0={this.props.similarPlayersList[0].ppg}
-            apg0={this.props.similarPlayersList[0].apg}
-            rpg0={this.props.similarPlayersList[0].rpg}
-
-            similarPlayer1={this.props.similarPlayersList[1].playerName}
-            img1={this.props.similarPlayersList[1].img}
-            ppg1={this.props.similarPlayersList[1].ppg}
-            apg1={this.props.similarPlayersList[1].apg}
-            rpg1={this.props.similarPlayersList[1].rpg}
-
-            similarPlayer2={this.props.similarPlayersList[2].playerName}
-            img2={this.props.similarPlayersList[2].img}
-            ppg2={this.props.similarPlayersList[2].ppg}
-            apg2={this.props.similarPlayersList[2].apg}
-            rpg2={this.props.similarPlayersList[2].rpg}
-
-            similarPlayer3={this.props.similarPlayersList[3].playerName}
-            img3={this.props.similarPlayersList[3].img}
-            ppg3={this.props.similarPlayersList[3].ppg}
-            apg3={this.props.similarPlayersList[3].apg}
-            rpg3={this.props.similarPlayersList[3].rpg}
-          />
-
-          <LeagueComparisonCard
-            playerName={this.props.currentPlayer.playerName}
-
-            ppgLeaderName={this.props.leagueStats.ppg.leagueLeaderName}
-            leaderPpg={this.props.leagueStats.ppg.leagueLeaderValue}
-            playerPpg={this.props.currentPlayer.ppg}
-            averagePpg={this.props.leagueStats.ppg.leagueAverageValue}
-
-            apgLeaderName={this.props.leagueStats.apg.leagueLeaderName}
-            leaderApg={this.props.leagueStats.apg.leagueLeaderValue}
-            playerApg={this.props.currentPlayer.apg}
-            averageApg={this.props.leagueStats.apg.leagueAverageValue}
-
-            rpgLeaderName={this.props.leagueStats.rpg.leagueLeaderName}
-            leaderRpg={this.props.leagueStats.rpg.leagueLeaderValue}
-            playerRpg={this.props.currentPlayer.rpg}
-            averageRpg={this.props.leagueStats.rpg.leagueAverageValue}
-          />
         </div>
       </div>
     );

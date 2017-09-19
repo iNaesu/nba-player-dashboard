@@ -1,5 +1,6 @@
 import React from 'react';
 import { VictoryPie, VictoryLabel } from 'victory';
+import '../style/components/StatCard.css';
 
 export default class StatCard extends React.Component {
   constructor() {
@@ -18,7 +19,7 @@ export default class StatCard extends React.Component {
 
   render() {
     return (
-      <svg viewBox='0 0 400 400' className='card'>
+      <svg viewBox='0 0 400 400' className='StatCard card' id={this.props.id}>
 
         <VictoryPie
           animate={{duration: 1000}}

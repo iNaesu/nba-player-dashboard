@@ -3,6 +3,7 @@ import {
   VictoryChart, VictoryGroup, VictoryStack,
   VictoryBar, VictoryTooltip, VictoryAxis
 } from 'victory';
+import '../style/components/LeagueComparisonCard.css';
 
 export default function LeagueComparisonCard(props) {
   const statList = [
@@ -71,7 +72,7 @@ export default function LeagueComparisonCard(props) {
   const yMax = Math.ceil(props.leaderPpg / 5) * 5;
 
   return (
-    <div className='card'>
+    <div className='LeagueComparisonCard card'>
 
       <h3>Vs. League</h3>
 
