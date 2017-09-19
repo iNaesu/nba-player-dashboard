@@ -1,19 +1,20 @@
 import React from 'react';
-import './App.css';
+import '../style/components/App.css';
 /* Import components */
-import PlayerSearchBox from './components/PlayerSearchBox.js'
-import ProfileCard from './components/ProfileCard.js'
-import StatCard from './components/StatCard.js'
-import SimilarPlayersCard from './components/SimilarPlayersCard.js'
-import LeagueComparisonCard from './components/LeagueComparisonCard.js'
+import PlayerSearchBox from './PlayerSearchBox.js'
+import ProfileCard from './ProfileCard.js'
+import StatCard from './StatCard.js'
+import SimilarPlayersCard from './SimilarPlayersCard.js'
+import LeagueComparisonCard from './LeagueComparisonCard.js'
 
 export default class App extends React.Component {
   render() {
     return (
-      <div className='app'>
-        <h1>NBA Player Dashboard</h1>
+      <div className='App'>
+        <h1 className='title'>NBA Player Dashboard</h1>
 
         <PlayerSearchBox placeholderText='Player Search' />
+
         <ProfileCard
           playerName={this.props.currentPlayer.playerName}
           img={this.props.currentPlayer.img}

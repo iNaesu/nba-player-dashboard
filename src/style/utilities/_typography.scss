@@ -1,0 +1,34 @@
+.base-font-style {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+}
+
+.regular-font-style {
+  @extend .base-font-style;
+  font-weight: 400;
+}
+
+.bold-font-style {
+  @extend .base-font-style;
+  font-weight: 700;
+}
+
+h1 {
+  @extend .bold-font-style;
+  font-size: 4.5rem;
+}
+
+h2 {
+  @extend .bold-font-style;
+  font-size: 2.33rem;
+}
+
+h3 {
+  @extend .bold-font-style;
+  font-size: 1.67rem;
+}
+
+body, html {
+  @extend .base-font-style;
+  font-size: 15px;
+}
