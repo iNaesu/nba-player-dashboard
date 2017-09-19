@@ -1,9 +1,20 @@
 @import '../utilities/colors';
 
 .App {
+  text-align: center;
   background: url('/img/background.png');
+  display: flex;
 }
 
 .title {
   color: $fg-color;
+}
+
+.content-wrapper {
+  margin-left: 6rem;
+  margin-right: 6rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
