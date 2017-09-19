@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  VictoryChart, VictoryGroup, VictoryStack, 
+  VictoryChart, VictoryGroup, VictoryStack,
   VictoryBar, VictoryTooltip, VictoryAxis
 } from 'victory';
 
@@ -71,7 +71,7 @@ export default function LeagueComparisonCard(props) {
   const yMax = Math.ceil(props.leaderPpg / 5) * 5;
 
   return (
-    <div>
+    <div className='card'>
 
       <h3>Vs. League</h3>
 

@@ -18,7 +18,7 @@ export default class StatCard extends React.Component {
 
   render() {
     return (
-      <svg viewBox="0 0 400 400">
+      <svg viewBox='0 0 400 400' className='card'>
 
         <VictoryPie
           animate={{duration: 1000}}
@@ -30,14 +30,14 @@ export default class StatCard extends React.Component {
               statValue: this.state.leagueLeaderValue - this.state.value
             },
           ]}
-          x="idx" y="statValue"
+          x='idx' y='statValue'
           innerRadius={120}
           labelRadius={150}
           labels={() => null}
         />
 
         <VictoryLabel
-          textAnchor="middle"
+          textAnchor='middle'
           x={200} y={200}
           text={this.props.statName}
         />

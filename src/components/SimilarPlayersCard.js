@@ -43,7 +43,7 @@ export default function SimilarPlayersCard(props) {
   );
 
   return (
-    <div>
+    <div className='card'>
       <h3>Similar Players</h3>
       {playerAvatarList}
     </div>
