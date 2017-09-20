@@ -1,19 +1,26 @@
 @import '../utilities/colors';
+@import '../utilities/layout';
 
 .App {
+  color: $fg-color;
   text-align: center;
   background: url('/img/background.png');
+  background-size: cover;
   display: flex;
   flex-direction: row;
 }
 
-.title {
-  color: $fg-color;
-}
-
 .content-wrapper {
-  margin-left: 6rem;
-  margin-right: 6rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  @media (min-width: $mobile-l-min) {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+  @media (min-width: $desktop-min) {
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -21,13 +28,21 @@
 }
 
 .all-data-cards-wrapper {
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  @media (min-width: $desktop-min) {
+    flex-direction: row;
+  }
 }
 
 .ProfileCard-StatCards-wrapper {
-  order: 1;
-  width: 45%;
+  order: 0;
+  width: 100%;
+  @media (min-width: $desktop-min) {
+    order: 1;
+    width: 45%;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;

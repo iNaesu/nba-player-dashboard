@@ -1,4 +1,10 @@
+@import '../utilities/layout';
+
 .SimilarPlayersCard {
-  order: 0;
-  width: 27.5%;
+  order: 2;
+  width: 100%;
+  @media (min-width: $desktop-min) {
+    order: 0;
+    width: 27.5%;
+  }
 }
