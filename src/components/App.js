@@ -14,9 +14,7 @@ export default class App extends React.Component {
         <div className='content-wrapper'>
           <h1 className='title'>NBA Player Dashboard</h1>
 
-          <div className='PlayerSearchBox-wrapper'>
-            <PlayerSearchBox placeholderText='Player Search' />
-          </div>
+          <PlayerSearchBox placeholderText='Player Search' />
 
           <div className='all-data-cards-wrapper'>
 
