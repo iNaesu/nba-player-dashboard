@@ -2,7 +2,6 @@
 
 .LeagueComparisonCard {
   order: 1;
-  width: 100%;
   @media (min-width: $desktop-min) {
     order: 2;
     width: 27.5%;

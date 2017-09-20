@@ -27,6 +27,10 @@
   align-items: center;
 }
 
+.PlayerSearchBox-wrapper {
+  width: 100%;
+}
+
 .all-data-cards-wrapper {
   width: 100%;
   display: flex;
@@ -38,7 +42,8 @@
 
 .ProfileCard-StatCards-wrapper {
   order: 0;
-  width: 100%;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   @media (min-width: $desktop-min) {
     order: 1;
     width: 45%;
@@ -53,4 +58,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+#ppg-card {
+  margin-left: 0;
+}
+
+#rpg-card {
+  margin-right: 0;
 }
