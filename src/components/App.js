@@ -31,18 +31,27 @@ export default class App extends React.Component {
               <div className='StatCards-wrapper'>
                 <StatCard
                   id='ppg-card'
-                  statName='ppg' value={this.props.currentPlayer.ppg}
-                  leagueLeaderValue={this.props.leagueStats.ppg.leagueLeaderValue}
+                  statName={['Points', 'Per Game']}
+                  value={this.props.currentPlayer.ppg}
+                  leagueLeaderValue={
+                    this.props.leagueStats.ppg.leagueLeaderValue
+                  }
                 />
                 <StatCard
                   id='apg-card'
-                  statName='apg' value={this.props.currentPlayer.apg}
-                  leagueLeaderValue={this.props.leagueStats.apg.leagueLeaderValue}
+                  statName={['Assists', 'Per Game']}
+                  value={this.props.currentPlayer.apg}
+                  leagueLeaderValue={
+                    this.props.leagueStats.apg.leagueLeaderValue
+                  }
                 />
                 <StatCard
                   id='rpg-card'
-                  statName='rpg' value={this.props.currentPlayer.rpg}
-                  leagueLeaderValue={this.props.leagueStats.rpg.leagueLeaderValue}
+                  statName={['Rebounds', 'Per Game']}
+                  value={this.props.currentPlayer.rpg}
+                  leagueLeaderValue={
+                    this.props.leagueStats.rpg.leagueLeaderValue
+                  }
                 />
               </div>
             </div>
