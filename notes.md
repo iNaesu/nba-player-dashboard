@@ -10,4 +10,5 @@
 
 * style page - New branch
     * Use a base spacing unit
+    * Think about letter spacing
 * Add interactivity - New branch

@@ -7,5 +7,5 @@ export const fgColor = "FFF";
 
 /* Typography */
 export const fontFamily = "'Montserrat', sans-serif";
-export const pFontSize = 32;
+export const pFontSize = 35;
 export const h2FontSize = 75;
