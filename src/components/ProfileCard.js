@@ -5,10 +5,12 @@ export default function ProfileCard(props) {
   return (
     <div className='ProfileCard card'>
 
-      <h1>{props.playerName}</h1>
+      <div className='ProfileCard-text'>
+        <h1>{props.playerName}</h1>
+        <p>{props.team}</p>
+        <p>{props.position}</p>
+      </div>
       <img src={props.img} alt={props.playerName} />
-      <p>{props.team}</p>
-      <p>{props.position}</p>
 
     </div>
   );

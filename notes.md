@@ -12,3 +12,6 @@
     * Use a base spacing unit
     * Think about letter spacing
 * Add interactivity - New branch
+
+# Additional features
+* Tooltips and animation on hover on graphs

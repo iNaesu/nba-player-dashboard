@@ -1,5 +1,5 @@
 import React from 'react';
-import { VictoryPie, VictoryLabel, VictoryTheme } from 'victory';
+import { VictoryPie, VictoryLabel } from 'victory';
 import {
   highlightColor, lowlightColor, fgColor, pFontSize, h2FontSize, fontFamily
 } from '../theme.js';

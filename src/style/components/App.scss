@@ -8,6 +8,9 @@
   background-size: cover;
   display: flex;
   flex-direction: row;
+  @media (min-width: $desktop-min) {
+    height: 100vh;
+  }
 }
 
 .content-wrapper {
