@@ -14,15 +14,15 @@
 }
 
 .content-wrapper {
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-left: 2 * $base-spacing;
+  margin-right: 2 * $base-spacing;
   @media (min-width: $mobile-l-min) {
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 4 * $base-spacing;
+    margin-right: 4 * $base-spacing;
   }
   @media (min-width: $desktop-min) {
-    margin-left: 3rem;
-    margin-right: 3rem;
+    margin-left: 6 * $base-spacing;
+    margin-right: 6 * $base-spacing;
   }
   width: 100%;
   display: flex;
@@ -45,8 +45,8 @@
 
 .ProfileCard-StatCards-wrapper {
   order: 0;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: $base-spacing;
+  margin-right: $base-spacing;;
   @media (min-width: $desktop-min) {
     order: 1;
     width: 45%;

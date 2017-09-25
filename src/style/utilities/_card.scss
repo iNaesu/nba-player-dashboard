@@ -1,4 +1,5 @@
 @import '../utilities/colors';
+@import '../utilities/layout';
 
 .card {
   background-color: $bg-color;
@@ -6,5 +7,5 @@
               0 1.27rem 2.53rem 0 rgba(0, 0, 0, 0.30);
   border-top: 0.07rem solid $accent-color;
   border-radius: 0.13rem;
-  margin: 0.5rem;
+  margin: 2 * $base-spacing;
 }
