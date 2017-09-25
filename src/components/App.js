@@ -110,9 +110,9 @@ export default class App extends React.Component {
 
 App.defaultProps = {
   'currentPlayer': {
-    'playerName': 'Kyrie Irving',
+    'playerName': 'Kentavious Caldwell-Pope',
     'img': 'img/irving.png',
-    'team': 'Cleveland Cavaliers',
+    'team': 'Minnesota Timberwolves',
     'position': 'Point Guard',
     'ppg': 21.4,
     'apg': 8.4,
