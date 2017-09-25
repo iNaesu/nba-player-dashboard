@@ -45,8 +45,8 @@
 
 .ProfileCard-StatCards-wrapper {
   order: 0;
-  margin-left: 2 * $base-spacing;
-  margin-right: 2 * $base-spacing;;
+  margin-left: $base-spacing;
+  margin-right: $base-spacing;;
   @media (min-width: $desktop-min) {
     order: 1;
     width: 45%;
