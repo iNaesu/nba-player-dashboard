@@ -2,7 +2,7 @@
 
 .LeagueComparisonCard {
   order: 1;
-  @media (min-width: $desktop-min) {
+  @media (min-width: $tablet-min) {
     order: 2;
     width: 27.5%;
   }
