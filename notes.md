@@ -9,8 +9,8 @@
     * This means they will be functions instead of classes
 
 * style page - New branch
-    * Use a base spacing unit
     * Think about letter spacing
+    * Think about style of Statcard text. POINTS/game(where game in grey maybe)
 * Add interactivity - New branch
 
 # Additional features
