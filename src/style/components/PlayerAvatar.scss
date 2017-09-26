@@ -1,0 +1,41 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+
+.PlayerAvatar {
+  display: flex;
+  margin-top: 4 * $base-spacing;
+  border-bottom: 0.5px solid $accent-color;
+}
+
+$PlayerAvatar-img-wrapper-width: 30%;
+.PlayerAvatar-img-wrapper {
+  display: flex;
+  align-items: flex-end;
+  width: $PlayerAvatar-img-wrapper-width;
+  img {
+    width: 100%;
+  }
+}
+
+.PlayerAvatar-text-wrapper {
+  width: 100% - $PlayerAvatar-img-wrapper-width;
+  padding-bottom: $base-spacing;
+  text-align: left;
+}
+
+.PlayerAvatar-stat-list-wrapper {
+  display: flex;
+}
+
+.PlayerAvatar-stat-wrapper {
+  display: flex;
+  align-items: flex-end;
+
+  h3, p {
+    margin: 0 0 0 0;
+  }
+  p {
+    padding-bottom: 0.2rem;
+    color: $accent-color;
+  }
+}

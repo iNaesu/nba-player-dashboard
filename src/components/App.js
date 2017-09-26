@@ -74,12 +74,6 @@ export default class App extends React.Component {
               ppg2={this.props.similarPlayersList[2].ppg}
               apg2={this.props.similarPlayersList[2].apg}
               rpg2={this.props.similarPlayersList[2].rpg}
-
-              similarPlayer3={this.props.similarPlayersList[3].playerName}
-              img3={this.props.similarPlayersList[3].img}
-              ppg3={this.props.similarPlayersList[3].ppg}
-              apg3={this.props.similarPlayersList[3].apg}
-              rpg3={this.props.similarPlayersList[3].rpg}
             />
 
             <LeagueComparisonCard
@@ -120,7 +114,7 @@ App.defaultProps = {
   },
   'similarPlayersList': [
     {
-      'playerName': 'Stephen Curry',
+      'playerName': 'Kentavious Caldwell-Pope',
       'img': 'img/curry.png',
       'ppg': 22.3,
       'apg': 6.6,
@@ -139,13 +133,6 @@ App.defaultProps = {
       'ppg': 32,
       'apg': 10,
       'rpg': 11
-    },
-    {
-      'playerName': 'Isaiah Thomas',
-      'img': 'img/thomas.png',
-      'ppg': 29,
-      'apg': 6.6,
-      'rpg': 1.1
     }
   ],
   'leagueStats': {

@@ -25,14 +25,7 @@ export default function SimilarPlayersCard(props) {
       'ppg': props.ppg2,
       'apg': props.apg2,
       'rpg': props.rpg2
-    },
-    {
-      'playerName': props.similarPlayer3,
-      'img': props.img3,
-      'ppg': props.ppg3,
-      'apg': props.apg3,
-      'rpg': props.rpg3
-    },
+    }
   ];
 
   const playerAvatarList = similarPlayersList.map((player) =>
