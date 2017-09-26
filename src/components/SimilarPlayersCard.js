@@ -45,7 +45,10 @@ export default function SimilarPlayersCard(props) {
 
   return (
     <div className='SimilarPlayersCard card'>
-      <h3>Similar Players</h3>
+      <div className='card-title'>
+        Similar Players
+      </div>
+
       {playerAvatarList}
     </div>
   );

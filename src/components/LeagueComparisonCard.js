@@ -73,8 +73,9 @@ export default function LeagueComparisonCard(props) {
 
   return (
     <div className='LeagueComparisonCard card'>
-
-      <h3>Vs. League</h3>
+      <div className='card-title'>
+        Vs. League
+      </div>
 
       <VictoryChart domain={{x: [0, 4], y: [0, yMax]}}>
         {groupOfBarsList}
