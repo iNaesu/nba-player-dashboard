@@ -4,7 +4,7 @@ import {
   VictoryBar, VictoryTooltip, VictoryAxis
 } from 'victory';
 import {
-  highlightColor, midlightColor, lowlightColor, fgColor, fontFamily
+  highlightColor, midlightColor, lowlightColor, fgColor, accentColor, fontFamily
 } from '../theme.js';
 import '../style/components/LeagueComparisonCard.css';
 
@@ -85,11 +85,10 @@ export default function LeagueComparisonCard(props) {
 
       <div className='LeagueComparisonCard-graph-wrapper'>
         <VictoryChart
-          domain={{x: [0, 4], y: [0, yMax]}}
+          domain={{x: [0.5, 3.5], y: [0, yMax]}}
           height={500}
+          padding={{ top: 50, bottom: 75, left: 100, right: 70 }}
         >
-
-          {groupOfBarsList}
 
           <VictoryAxis
             tickValues={statList.map((stat) => stat['statType'])}
@@ -111,12 +110,16 @@ export default function LeagueComparisonCard(props) {
                 fill: fgColor,
                 fontSize: axisFontSize,
                 fontFamily: fontFamily
-              }
+              },
+              grid: {stroke: accentColor},
             }}
           />
-        </VictoryChart>
-      </div>
 
+          {groupOfBarsList}
+
+        </VictoryChart>
+
+      </div>
     </div>
   );
 }
