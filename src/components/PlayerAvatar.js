@@ -18,17 +18,17 @@ export default function PlayerAvatar(props) {
         <div className='PlayerAvatar-stat-list-wrapper'>
 
           <div className='PlayerAvatar-stat-wrapper'>
-            <h3>{props.ppg}</h3>
+            <h3>{props.ppg.toFixed(0)}</h3>
             <p>PPG</p>
           </div>
 
           <div className='PlayerAvatar-stat-wrapper'>
-            <h3>{props.apg}</h3>
+            <h3>{props.apg.toFixed(0)}</h3>
             <p>APG</p>
           </div>
 
           <div className='PlayerAvatar-stat-wrapper'>
-            <h3>{props.rpg}</h3>
+            <h3>{props.rpg.toFixed(0)}</h3>
             <p>RPG</p>
           </div>
 

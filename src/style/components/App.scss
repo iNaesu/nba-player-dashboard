@@ -16,10 +16,7 @@
 .content-wrapper {
   margin-left: 2 * $base-spacing;
   margin-right: 2 * $base-spacing;
-  @media (min-width: $mobile-l-min) {
-    margin-left: 4 * $base-spacing;
-    margin-right: 4 * $base-spacing;
-  }
+
   @media (min-width: $tablet-min) {
     margin-left: 6 * $base-spacing;
     margin-right: 6 * $base-spacing;
@@ -49,7 +46,7 @@
   margin-right: $base-spacing;;
   @media (min-width: $tablet-min) {
     order: 1;
-    width: 45%;
+    width: 40%;
   }
   display: flex;
   flex-direction: column;

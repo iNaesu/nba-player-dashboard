@@ -3,15 +3,18 @@
 
 .PlayerAvatar {
   display: flex;
-  margin-top: 4 * $base-spacing;
+  box-sizing: border-box;
+  padding: 4 * $base-spacing $base-spacing 0 0;
   border-bottom: 0.5px solid $accent-color;
 }
 
-$PlayerAvatar-img-wrapper-width: 30%;
+$PlayerAvatar-img-wrapper-width: 28%;
 .PlayerAvatar-img-wrapper {
   display: flex;
   align-items: flex-end;
   width: $PlayerAvatar-img-wrapper-width;
+  margin-right: $base-spacing;
+
   img {
     width: 100%;
   }
@@ -30,12 +33,13 @@ $PlayerAvatar-img-wrapper-width: 30%;
 .PlayerAvatar-stat-wrapper {
   display: flex;
   align-items: flex-end;
+  margin: 0 2 * $base-spacing 0 0;
 
   h3, p {
-    margin: 0 0 0 0;
+    margin: 0 $base-spacing 0 0;
   }
   p {
-    padding-bottom: 0.2rem;
+    padding-bottom: 0.12rem;
     color: $accent-color;
   }
 }

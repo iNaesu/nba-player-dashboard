@@ -130,9 +130,9 @@ App.defaultProps = {
     {
       'playerName': 'Russell Westbrook',
       'img': 'img/westbrook.png',
-      'ppg': 32,
-      'apg': 10,
-      'rpg': 11
+      'ppg': 32.0,
+      'apg': 10.0,
+      'rpg': 11.8
     }
   ],
   'leagueStats': {
