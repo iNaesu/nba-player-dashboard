@@ -3,6 +3,9 @@ import {
   VictoryChart, VictoryGroup, VictoryStack,
   VictoryBar, VictoryTooltip, VictoryAxis
 } from 'victory';
+import {
+  highlightColor, midlightColor, lowlightColor, fgColor, fontFamily
+} from '../theme.js';
 import '../style/components/LeagueComparisonCard.css';
 
 export default function LeagueComparisonCard(props) {
@@ -39,7 +42,8 @@ export default function LeagueComparisonCard(props) {
       <VictoryBar data={[
         {
           x: idx + 1, y: stat.playerValue,
-          label: props.playerName + ' - ' + stat.playerValue + stat.statType
+          label: props.playerName + ' - ' + stat.playerValue + stat.statType,
+          fill: highlightColor
         }
       ]} />
 
@@ -49,7 +53,8 @@ export default function LeagueComparisonCard(props) {
             {
               x: idx + 1, y: stat.leagueAverageValue,
               label: 'League Average - ' + stat.leagueAverageValue
-                      + stat.statType
+                      + stat.statType,
+              fill: lowlightColor
             }
           ]}
         />
@@ -59,7 +64,8 @@ export default function LeagueComparisonCard(props) {
               x: idx + 1,
               y: stat.leagueLeaderValue - stat.leagueAverageValue,
               label: stat.leagueLeaderName + ' - ' +
-                      stat.leagueLeaderValue + stat.statType
+                      stat.leagueLeaderValue + stat.statType,
+              fill: midlightColor
             }
           ]}
         />
@@ -70,18 +76,46 @@ export default function LeagueComparisonCard(props) {
 
   /* Round up to closest 5 */
   const yMax = Math.ceil(props.leaderPpg / 5) * 5;
-
+  const axisFontSize = 20;
   return (
     <div className='LeagueComparisonCard card'>
       <div className='card-title'>
         Vs. League
       </div>
 
-      <VictoryChart domain={{x: [0, 4], y: [0, yMax]}}>
-        {groupOfBarsList}
-        <VictoryAxis tickValues={statList.map((stat) => stat['statType'])} />
-        <VictoryAxis dependentAxis tickValues={range(0, yMax, 5)} />
-      </VictoryChart>
+      <div className='LeagueComparisonCard-graph-wrapper'>
+        <VictoryChart
+          domain={{x: [0, 4], y: [0, yMax]}}
+          height={500}
+        >
+
+          {groupOfBarsList}
+
+          <VictoryAxis
+            tickValues={statList.map((stat) => stat['statType'])}
+            style={{
+              axis: {stroke: 'none'},
+              tickLabels: {
+                fill: fgColor,
+                fontSize: axisFontSize,
+                fontFamily: fontFamily
+              }
+            }}
+          />
+
+          <VictoryAxis
+            dependentAxis tickValues={range(0, yMax, 5)}
+            style={{
+              axis: {stroke: 'none'},
+              tickLabels: {
+                fill: fgColor,
+                fontSize: axisFontSize,
+                fontFamily: fontFamily
+              }
+            }}
+          />
+        </VictoryChart>
+      </div>
 
     </div>
   );
