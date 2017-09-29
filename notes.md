@@ -10,8 +10,8 @@
 
 * style page - New branch
     * Think about letter spacing
-    * Think about style of Statcard text. POINTS/game(where game in grey maybe)
 * Add interactivity - New branch
 
 # Additional features
 * Tooltips and animation on hover on graphs
+* Ad player number to Profile card

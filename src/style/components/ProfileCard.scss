@@ -34,10 +34,12 @@ $ProfileCard-img-wrapper-width: 59%;
 
   img {
     width: 100%;
+    z-index: 0;
   }
 }
 
 .ProfileCard-text-wrapper {
   width: 100% - $ProfileCard-img-wrapper-width;
   padding-bottom: 2 * $base-spacing;
+  z-index: 1;
 }
