@@ -26,7 +26,7 @@ h3 {@extend .h3;}
 body, html {
   @extend .base-font-style;
   font-size: 2.5vw;
-  @media (min-width: $tablet-min) {
+  @media (min-width: $layout-breakpoint) {
     font-size: 1.13vw;
   }
 }

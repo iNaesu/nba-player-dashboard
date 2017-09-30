@@ -2,7 +2,7 @@
 
 .LeagueComparisonCard {
   order: 1;
-  @media (min-width: $tablet-min) {
+  @media (min-width: $layout-breakpoint) {
     order: 2;
     width: 24%;
   }

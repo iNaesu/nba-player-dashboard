@@ -2,7 +2,7 @@
 
 .SimilarPlayersCard {
   order: 2;
-  @media (min-width: $tablet-min) {
+  @media (min-width: $layout-breakpoint) {
     order: 0;
     width: 34%;
   }

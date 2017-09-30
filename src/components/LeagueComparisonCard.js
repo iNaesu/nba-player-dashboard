@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  VictoryChart, VictoryGroup, VictoryStack, VictoryLabel, VictoryBar,
-  VictoryTooltip, VictoryAxis
+  VictoryChart, VictoryGroup, VictoryStack, VictoryBar, VictoryTooltip,
+  VictoryAxis
 } from 'victory';
 import {
   highlightColor, midlightColor, lowlightColor, fgColor, accentColor, fontFamily
