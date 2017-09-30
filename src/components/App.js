@@ -108,7 +108,7 @@ App.defaultProps = {
     'img': 'img/irving.png',
     'team': 'Minnesota Timberwolves',
     'position': 'Point Guard',
-    'ppg': 21.4,
+    'ppg': 21.0,
     'apg': 8.4,
     'rpg': 2.1,
   },

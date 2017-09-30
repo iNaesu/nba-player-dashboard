@@ -43,7 +43,7 @@ export default class StatCard extends React.Component {
         <VictoryLabel
           textAnchor='middle'
           x={200} y={160}
-          text={this.state.value}
+          text={this.state.value.toFixed(1)}
           style={{
             fill: highlightColor,
             fontSize: h2FontSize,
