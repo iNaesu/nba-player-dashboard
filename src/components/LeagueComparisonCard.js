@@ -9,7 +9,12 @@ import {
 } from '../theme.js';
 import '../style/components/LeagueComparisonCard.css';
 
-const axisFontSize = 20;
+const screenWidth = window.innerWidth;
+const layoutBreakpoint = 1008;
+let axisFontSize = 14;
+if (screenWidth >= layoutBreakpoint) {
+  axisFontSize = 20;
+}
 
 export default function LeagueComparisonCard(props) {
   const statList = [
@@ -36,8 +41,6 @@ export default function LeagueComparisonCard(props) {
     },
   ]
 
-  const screenWidth = window.innerWidth;
-  const layoutBreakpoint = 1008;
   let isHorizontalBars = true;
 
   if (screenWidth >= layoutBreakpoint) {
@@ -154,7 +157,7 @@ export default function LeagueComparisonCard(props) {
           <VictoryChart
             domain={{y: [0.5, 3.5], x: [0, yMax]}}
             height={350}
-            padding={{ top: 25, bottom: 75, left: 100, right: 70 }}
+            padding={{ top: 25, bottom: 75, left: 70, right: 70 }}
           >
 
             <VictoryAxis dependentAxis
