@@ -47,7 +47,8 @@ export default function LeagueComparisonCard(props) {
         data={[
           {
             x: idx + 1, y: stat.playerValue,
-            text: props.playerName + ' - ' + stat.playerValue + stat.statType,
+            text: props.playerName + ' - ' + stat.playerValue.toFixed(1)
+                  + stat.statType,
             fill: highlightColor
           }
         ]}
@@ -60,7 +61,7 @@ export default function LeagueComparisonCard(props) {
           data={[
             {
               x: idx + 1, y: stat.leagueAverageValue,
-              text: 'League Average - ' + stat.leagueAverageValue
+              text: 'League Average - ' + stat.leagueAverageValue.toFixed(1)
                       + stat.statType,
               fill: lowlightColor
             }
@@ -73,8 +74,8 @@ export default function LeagueComparisonCard(props) {
             {
               x: idx + 1,
               y: stat.leagueLeaderValue - stat.leagueAverageValue,
-              text: stat.leagueLeaderName + ' - ' +
-                      stat.leagueLeaderValue + stat.statType,
+              text: stat.leagueLeaderName + ' - '
+              + stat.leagueLeaderValue.toFixed(1) + stat.statType,
               fill: midlightColor
             }
           ]}
