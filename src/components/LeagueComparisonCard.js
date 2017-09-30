@@ -1,12 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  VictoryChart, VictoryGroup, VictoryStack,
-  VictoryBar, VictoryTooltip, VictoryAxis
+  VictoryChart, VictoryGroup, VictoryStack, VictoryLabel, VictoryBar,
+  VictoryTooltip, VictoryAxis
 } from 'victory';
 import {
   highlightColor, midlightColor, lowlightColor, fgColor, accentColor, fontFamily
 } from '../theme.js';
 import '../style/components/LeagueComparisonCard.css';
+
+const axisFontSize = 20;
 
 export default function LeagueComparisonCard(props) {
   const statList = [
@@ -36,34 +39,41 @@ export default function LeagueComparisonCard(props) {
   const groupOfBarsList = statList.map((stat, idx) =>
     <VictoryGroup
       key={stat.statType} offset={20} style={{ data: {width: 15}}}
-      labelComponent={<VictoryTooltip/>}
     >
 
-      <VictoryBar data={[
-        {
-          x: idx + 1, y: stat.playerValue,
-          label: props.playerName + ' - ' + stat.playerValue + stat.statType,
-          fill: highlightColor
-        }
-      ]} />
+      <VictoryBar
+        labelComponent={<CustomLabel/>}
+        labels={(d) => d.text}
+        data={[
+          {
+            x: idx + 1, y: stat.playerValue,
+            text: props.playerName + ' - ' + stat.playerValue + stat.statType,
+            fill: highlightColor
+          }
+        ]}
+      />
 
       <VictoryStack>
         <VictoryBar
+          labelComponent={<CustomLabel/>}
+          labels={(d) => d.text}
           data={[
             {
               x: idx + 1, y: stat.leagueAverageValue,
-              label: 'League Average - ' + stat.leagueAverageValue
+              text: 'League Average - ' + stat.leagueAverageValue
                       + stat.statType,
               fill: lowlightColor
             }
           ]}
         />
         <VictoryBar
+          labelComponent={<CustomLabel/>}
+          labels={(d) => d.text}
           data={[
             {
               x: idx + 1,
               y: stat.leagueLeaderValue - stat.leagueAverageValue,
-              label: stat.leagueLeaderName + ' - ' +
+              text: stat.leagueLeaderName + ' - ' +
                       stat.leagueLeaderValue + stat.statType,
               fill: midlightColor
             }
@@ -74,9 +84,9 @@ export default function LeagueComparisonCard(props) {
     </VictoryGroup>
   );
 
-  /* Round up to closest 5 */
+  /* Round up yMax to closest 5 */
   const yMax = Math.ceil(props.leaderPpg / 5) * 5;
-  const axisFontSize = 20;
+
   return (
     <div className='LeagueComparisonCard card'>
       <div className='card-title'>
@@ -122,6 +132,36 @@ export default function LeagueComparisonCard(props) {
       </div>
     </div>
   );
+}
+
+class CustomLabel extends React.Component {
+  static defaultEvents = VictoryTooltip.defaultEvents;
+  static propTypes = {text: PropTypes.string};
+
+  render() {
+    return (
+      <g>
+        <VictoryTooltip
+          {...this.props}
+          x={225} y={525}
+          text={this.props.text}
+          orientation='top'
+          pointerLength={0}
+          cornerRadius={0}
+          height={70}
+          style={{
+            fill: fgColor,
+            fontSize: axisFontSize,
+            fontFamily: fontFamily
+          }}
+          flyoutStyle={{
+            fill: 'none',
+            stroke: 'none'
+          }}
+        />
+      </g>
+    );
+  }
 }
 
 /**
