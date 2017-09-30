@@ -12,7 +12,9 @@ import '../style/components/LeagueComparisonCard.css';
 const screenWidth = window.innerWidth;
 const layoutBreakpoint = 1008;
 let axisFontSize = 14;
+let customLabelYPos = 375;
 if (screenWidth >= layoutBreakpoint) {
+  customLabelYPos = 525;
   axisFontSize = 20;
 }
 
@@ -205,7 +207,7 @@ class CustomLabel extends React.Component {
       <g>
         <VictoryTooltip
           {...this.props}
-          x={225} y={525}
+          x={225} y={customLabelYPos}
           text={this.props.text}
           orientation='top'
           pointerLength={0}
