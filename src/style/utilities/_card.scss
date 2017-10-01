@@ -1,0 +1,18 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+@import '../utilities/typography';
+
+.card {
+  background-color: $bg-color;
+  box-shadow: 0 1rem 0.8rem 0 rgba(0, 0, 0, 0.22),
+              0 1.27rem 2.53rem 0 rgba(0, 0, 0, 0.30);
+  border-top: 0.07rem solid $accent-color;
+  border-radius: 0.13rem;
+  margin: $base-spacing;
+}
+
+.card-title {
+  @extend .h3;
+  padding: 2 * $base-spacing 0 2 * $base-spacing 0;
+  border-bottom: 1px solid $accent-color;
+}

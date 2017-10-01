@@ -1,0 +1,45 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+
+.PlayerAvatar {
+  display: flex;
+  box-sizing: border-box;
+  padding: 4 * $base-spacing $base-spacing 0 0;
+  border-bottom: 0.5px solid $accent-color;
+}
+
+$PlayerAvatar-img-wrapper-width: 28%;
+.PlayerAvatar-img-wrapper {
+  display: flex;
+  align-items: flex-end;
+  width: $PlayerAvatar-img-wrapper-width;
+  margin-right: $base-spacing;
+
+  img {
+    width: 100%;
+  }
+}
+
+.PlayerAvatar-text-wrapper {
+  width: 100% - $PlayerAvatar-img-wrapper-width;
+  padding-bottom: $base-spacing;
+  text-align: left;
+}
+
+.PlayerAvatar-stat-list-wrapper {
+  display: flex;
+}
+
+.PlayerAvatar-stat-wrapper {
+  display: flex;
+  align-items: flex-end;
+  margin: 0 2 * $base-spacing 0 0;
+
+  h3, p {
+    margin: 0 $base-spacing 0 0;
+  }
+  p {
+    padding-bottom: 0.12rem;
+    color: $accent-color;
+  }
+}

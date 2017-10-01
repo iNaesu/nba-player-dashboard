@@ -8,6 +8,10 @@
     * Make those components presentational - stateless
     * This means they will be functions instead of classes
 
-* Create some dummy data
 * style page - New branch
+    * Think about letter spacing
 * Add interactivity - New branch
+
+# Additional features
+* Tooltips and animation on hover on graphs
+* Ad player number to Profile card

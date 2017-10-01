@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerAvatar from './PlayerAvatar.js'
+import '../style/components/SimilarPlayersCard.css';
 
 export default function SimilarPlayersCard(props) {
 
@@ -24,14 +25,7 @@ export default function SimilarPlayersCard(props) {
       'ppg': props.ppg2,
       'apg': props.apg2,
       'rpg': props.rpg2
-    },
-    {
-      'playerName': props.similarPlayer3,
-      'img': props.img3,
-      'ppg': props.ppg3,
-      'apg': props.apg3,
-      'rpg': props.rpg3
-    },
+    }
   ];
 
   const playerAvatarList = similarPlayersList.map((player) =>
@@ -43,8 +37,11 @@ export default function SimilarPlayersCard(props) {
   );
 
   return (
-    <div>
-      <h3>Similar Players</h3>
+    <div className='SimilarPlayersCard card'>
+      <div className='card-title'>
+        Similar Players
+      </div>
+
       {playerAvatarList}
     </div>
   );

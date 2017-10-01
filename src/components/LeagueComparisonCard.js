@@ -1,8 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  VictoryChart, VictoryGroup, VictoryStack, 
-  VictoryBar, VictoryTooltip, VictoryAxis
+  VictoryChart, VictoryGroup, VictoryStack, VictoryBar, VictoryTooltip,
+  VictoryAxis
 } from 'victory';
+import {
+  highlightColor, midlightColor, lowlightColor, fgColor, accentColor, fontFamily
+} from '../theme.js';
+import '../style/components/LeagueComparisonCard.css';
+
+const screenWidth = window.innerWidth;
+const layoutBreakpoint = 1008;
+let axisFontSize = 14;
+let customLabelYPos = 375;
+if (screenWidth >= layoutBreakpoint) {
+  customLabelYPos = 525;
+  axisFontSize = 20;
+}
 
 export default function LeagueComparisonCard(props) {
   const statList = [
@@ -29,36 +43,53 @@ export default function LeagueComparisonCard(props) {
     },
   ]
 
+  let isHorizontalBars = true;
+
+  if (screenWidth >= layoutBreakpoint) {
+    isHorizontalBars = false;
+  }
+
   const groupOfBarsList = statList.map((stat, idx) =>
-    <VictoryGroup
+    <VictoryGroup horizontal={isHorizontalBars}
       key={stat.statType} offset={20} style={{ data: {width: 15}}}
-      labelComponent={<VictoryTooltip/>}
     >
 
-      <VictoryBar data={[
-        {
-          x: idx + 1, y: stat.playerValue,
-          label: props.playerName + ' - ' + stat.playerValue + stat.statType
-        }
-      ]} />
+      <VictoryBar
+        labelComponent={<CustomLabel/>}
+        labels={(d) => d.text}
+        data={[
+          {
+            x: idx + 1, y: stat.playerValue,
+            text: props.playerName + ' - ' + stat.playerValue.toFixed(1)
+                  + stat.statType,
+            fill: highlightColor
+          }
+        ]}
+      />
 
       <VictoryStack>
         <VictoryBar
+          labelComponent={<CustomLabel/>}
+          labels={(d) => d.text}
           data={[
             {
               x: idx + 1, y: stat.leagueAverageValue,
-              label: 'League Average - ' + stat.leagueAverageValue
-                      + stat.statType
+              text: 'League Average - ' + stat.leagueAverageValue.toFixed(1)
+                      + stat.statType,
+              fill: lowlightColor
             }
           ]}
         />
         <VictoryBar
+          labelComponent={<CustomLabel/>}
+          labels={(d) => d.text}
           data={[
             {
               x: idx + 1,
               y: stat.leagueLeaderValue - stat.leagueAverageValue,
-              label: stat.leagueLeaderName + ' - ' +
-                      stat.leagueLeaderValue + stat.statType
+              text: stat.leagueLeaderName + ' - '
+              + stat.leagueLeaderValue.toFixed(1) + stat.statType,
+              fill: midlightColor
             }
           ]}
         />
@@ -67,22 +98,134 @@ export default function LeagueComparisonCard(props) {
     </VictoryGroup>
   );
 
-  /* Round up to closest 5 */
+  /* Round up yMax to closest 5 */
   const yMax = Math.ceil(props.leaderPpg / 5) * 5;
+  let leagueComparisonCard = {};
 
-  return (
-    <div>
+  if (screenWidth >= layoutBreakpoint) {
+    (
+      leagueComparisonCard = <div className='LeagueComparisonCard card'>
+        <div className='card-title'>
+          Vs. League
+        </div>
 
-      <h3>Vs. League</h3>
+        <div className='LeagueComparisonCard-graph-wrapper'>
+          <VictoryChart
+            domain={{x: [0.5, 3.5], y: [0, yMax]}}
+            height={500}
+            padding={{ top: 50, bottom: 75, left: 100, right: 70 }}
+          >
 
-      <VictoryChart domain={{x: [0, 4], y: [0, yMax]}}>
-        {groupOfBarsList}
-        <VictoryAxis tickValues={statList.map((stat) => stat['statType'])} />
-        <VictoryAxis dependentAxis tickValues={range(0, yMax, 5)} />
-      </VictoryChart>
+            <VictoryAxis
+              tickValues={statList.map((stat) => stat['statType'])}
+              style={{
+                axis: {stroke: 'none'},
+                tickLabels: {
+                  fill: fgColor,
+                  fontSize: axisFontSize,
+                  fontFamily: fontFamily
+                }
+              }}
+            />
 
-    </div>
-  );
+            <VictoryAxis
+              dependentAxis tickValues={range(0, yMax, 5)}
+              style={{
+                axis: {stroke: 'none'},
+                tickLabels: {
+                  fill: fgColor,
+                  fontSize: axisFontSize,
+                  fontFamily: fontFamily
+                },
+                grid: {stroke: accentColor},
+              }}
+            />
+
+            {groupOfBarsList}
+
+          </VictoryChart>
+
+        </div>
+      </div>
+    );
+  } else {
+    (
+      leagueComparisonCard = <div className='LeagueComparisonCard card'>
+        <div className='card-title'>
+          Vs. League
+        </div>
+
+        <div className='LeagueComparisonCard-graph-wrapper'>
+          <VictoryChart
+            domain={{y: [0.5, 3.5], x: [0, yMax]}}
+            height={350}
+            padding={{ top: 25, bottom: 75, left: 70, right: 70 }}
+          >
+
+            <VictoryAxis dependentAxis
+              tickValues={statList.map((stat) => stat['statType'])}
+              style={{
+                axis: {stroke: 'none'},
+                tickLabels: {
+                  fill: fgColor,
+                  fontSize: axisFontSize,
+                  fontFamily: fontFamily
+                }
+              }}
+            />
+
+            <VictoryAxis
+              tickValues={range(0, yMax, 5)}
+              style={{
+                axis: {stroke: 'none'},
+                tickLabels: {
+                  fill: fgColor,
+                  fontSize: axisFontSize,
+                  fontFamily: fontFamily
+                },
+                grid: {stroke: accentColor},
+              }}
+            />
+
+            {groupOfBarsList}
+
+          </VictoryChart>
+
+        </div>
+      </div>
+    );
+  }
+  return leagueComparisonCard;
+}
+
+class CustomLabel extends React.Component {
+  static defaultEvents = VictoryTooltip.defaultEvents;
+  static propTypes = {text: PropTypes.string};
+
+  render() {
+    return (
+      <g>
+        <VictoryTooltip
+          {...this.props}
+          x={225} y={customLabelYPos}
+          text={this.props.text}
+          orientation='top'
+          pointerLength={0}
+          cornerRadius={0}
+          height={70}
+          style={{
+            fill: fgColor,
+            fontSize: axisFontSize,
+            fontFamily: fontFamily
+          }}
+          flyoutStyle={{
+            fill: 'none',
+            stroke: 'none'
+          }}
+        />
+      </g>
+    );
+  }
 }
 
 /**

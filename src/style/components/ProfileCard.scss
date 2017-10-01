@@ -1,0 +1,45 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+
+.ProfileCard {
+  width: 100%;
+  text-align: left;
+  padding: 4 * $base-spacing 4 * $base-spacing 0 4 * $base-spacing;
+  box-sizing: border-box;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.ProfileCard-strong-line {
+  height: $base-spacing;
+  background-color: $fg-color;
+}
+
+.ProfileCard--line {
+  background-color: $fg-color;
+}
+
+.ProfileCard-content-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+$ProfileCard-img-wrapper-width: 59%;
+.ProfileCard-img-wrapper {
+  width: $ProfileCard-img-wrapper-width;
+  display: flex;
+  align-items: flex-end;
+
+  img {
+    width: 100%;
+    z-index: 0;
+  }
+}
+
+.ProfileCard-text-wrapper {
+  width: 100% - $ProfileCard-img-wrapper-width;
+  padding-bottom: 2 * $base-spacing;
+  z-index: 1;
+}
