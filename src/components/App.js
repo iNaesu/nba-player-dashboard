@@ -13,7 +13,6 @@ import '../style/components/App.css';
 /* Import images */
 import curryImg from '../img/curry.png';
 import irvingImg from '../img/irving.png';
-import thomasImg from '../img/thomas.png';
 import wallImg from '../img/wall.png';
 import westbrookImg from '../img/westbrook.png';
 
