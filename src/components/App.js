@@ -1,11 +1,21 @@
 import React from 'react';
+
 /* Import components */
 import PlayerSearchBox from './PlayerSearchBox.js'
 import ProfileCard from './ProfileCard.js'
 import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
+
+/* Import components */
 import '../style/components/App.css';
+
+/* Import images */
+import curryImg from '../img/curry.png';
+import irvingImg from '../img/irving.png';
+import thomasImg from '../img/thomas.png';
+import wallImg from '../img/wall.png';
+import westbrookImg from '../img/westbrook.png';
 
 export default class App extends React.Component {
   render() {
@@ -105,7 +115,7 @@ export default class App extends React.Component {
 App.defaultProps = {
   'currentPlayer': {
     'playerName': 'Giannis Antetokounmpo',
-    'img': 'img/irving.png',
+    'img': irvingImg,
     'team': 'Minnesota Timberwolves',
     'position': 'Point Guard',
     'ppg': 21.0,
@@ -115,21 +125,21 @@ App.defaultProps = {
   'similarPlayersList': [
     {
       'playerName': 'Kentavious Caldwell-Pope',
-      'img': 'img/curry.png',
+      'img': curryImg,
       'ppg': 22.3,
       'apg': 6.6,
       'rpg': 2.1
     },
     {
       'playerName': 'John Wall',
-      'img': 'img/wall.png',
+      'img': wallImg,
       'ppg': 20.3,
       'apg': 6.6,
       'rpg': 5.1
     },
     {
       'playerName': 'Russell Westbrook',
-      'img': 'img/westbrook.png',
+      'img': westbrookImg,
       'ppg': 32.0,
       'apg': 10.0,
       'rpg': 11.8
