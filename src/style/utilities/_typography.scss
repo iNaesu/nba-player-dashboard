@@ -1,0 +1,32 @@
+@import '../utilities/layout';
+
+.base-font-style {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+}
+
+.regular-font-style {
+  @extend .base-font-style;
+  font-weight: 400;
+}
+
+.bold-font-style {
+  @extend .base-font-style;
+  font-weight: 700;
+}
+.h1 {@extend .bold-font-style;font-size: 1.95rem;}
+h1 {@extend .h1;}
+
+.h2 {@extend .bold-font-style;font-size: 1.56rem;}
+h2 {@extend .h2;}
+
+.h3 {@extend .bold-font-style;font-size: 1.25rem;}
+h3 {@extend .h3;}
+
+body, html {
+  @extend .base-font-style;
+  font-size: 2.5vw;
+  @media (min-width: $layout-breakpoint) {
+    font-size: 1.13vw;
+  }
+}

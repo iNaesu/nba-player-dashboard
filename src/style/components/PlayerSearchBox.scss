@@ -1,0 +1,20 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+
+.PlayerSearchBox {
+  text-align: center;
+  padding: $base-spacing 0 $base-spacing 0;
+
+  input {
+    text-align: center;
+    background: none;
+    border: none;
+    color: $fg-color;
+  }
+  input:focus {
+    outline: none;
+  }
+  input::placeholder {
+    color: $fg-color;
+  }
+}

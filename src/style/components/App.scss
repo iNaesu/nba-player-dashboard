@@ -1,0 +1,72 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+
+.App {
+  color: $fg-color;
+  text-align: center;
+  background: url('/img/background.png');
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  padding-top: 2 * $base-spacing;
+  box-sizing: border-box;
+  @media (min-width: $layout-breakpoint) {
+    height: 100vh;
+  }
+}
+
+.content-wrapper {
+  margin-left: 2 * $base-spacing;
+  margin-right: 2 * $base-spacing;
+  margin-bottom: 2 * $base-spacing;
+
+  @media (min-width: $layout-breakpoint) {
+    margin-left: 6 * $base-spacing;
+    margin-right: 6 * $base-spacing;
+  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PlayerSearchBox-wrapper {
+  width: 100%;
+}
+
+.all-data-cards-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: $layout-breakpoint) {
+    flex-direction: row;
+  }
+}
+
+.ProfileCard-StatCards-wrapper {
+  order: 0;
+  margin-left: $base-spacing;
+  margin-right: $base-spacing;;
+  @media (min-width: $layout-breakpoint) {
+    order: 1;
+    width: 42%;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.StatCards-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#ppg-card {
+  margin-left: 0;
+}
+
+#rpg-card {
+  margin-right: 0;
+}
