@@ -1,13 +1,13 @@
 import React from 'react';
 
-/* Import components */
 import PlayerSearchBox from './PlayerSearchBox.js'
 import ProfileCard from './ProfileCard.js'
 import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
+import lastSeasonData from '../2016-2017-data.js'
 
-/* Import components */
+/* Import Style */
 import '../style/components/App.css';
 
 /* Import images */
@@ -20,6 +20,7 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      'nbaData': lastSeasonData.playerstatsentry,
       'currentPlayer': {
         'playerName': 'Giannis Antetokounmpo',
         'img': irvingImg,
@@ -75,7 +76,7 @@ export default class App extends React.Component {
   /* Fetch data & trigger rest of the app */
   componentDidMount() {
     const nbaDataUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nba/'
-                       + '2017-2018-regular/cumulative_player_stats.json?'
+                       + '2016-2017-regular/cumulative_player_stats.json?'
                        + 'playerstats=PTS/G,AST/G,REB/G';
     fetch(nbaDataUrl, {
        method: 'get',
@@ -84,23 +85,41 @@ export default class App extends React.Component {
          'Content-Type': 'application/x-www-form-urlencoded'
        }
     })
-      .then(
-        function(response) {
-          if (response.status !== 200) {
-            console.log('Status Code: ' + response.status);
-            return;
-          }
+    .then(response => {
+      return response.json();
+    })
+    .then(nbaData => {
+      this.setState({
+        'nbaData': nbaData.cumulativeplayerstats.playerstatsentry
+      });
+    })
+    .then(() => {
+      const data = this.state.nbaData;
 
-          response.json().then(function(data) {
-            console.log(data);
-          });
+      const pointsLeader = getLeagueLeader(data, 'PtsPerGame');
+      const assistsLeader = getLeagueLeader(data, 'AstPerGame');
+      const reboundsLeader = getLeagueLeader(data, 'RebPerGame');
+
+      this.setState({
+        'leagueStats': {
+          'ppg': {
+            'leagueLeaderName': pointsLeader.name,
+            'leagueLeaderValue': pointsLeader.value,
+            'leagueAverageValue': getLeagueAverage(data, 'PtsPerGame')
+          },
+          'apg': {
+            'leagueLeaderName': assistsLeader.name,
+            'leagueLeaderValue': assistsLeader.value,
+            'leagueAverageValue': getLeagueAverage(data,'AstPerGame')
+          },
+          'rpg': {
+            'leagueLeaderName': reboundsLeader.name,
+            'leagueLeaderValue': reboundsLeader.value,
+            'leagueAverageValue': getLeagueAverage(data,'RebPerGame')
+          }
         }
-      )
-      .catch(
-        function(err) {
-          console.log('Error: ' + err);
-        }
-      );
+      });
+    });
   }
 
   render() {
@@ -197,3 +216,51 @@ export default class App extends React.Component {
   }
 }
 
+function errorMessage(message) {
+  return 'Error: ' + message;
+}
+
+/**
+ * Get the player name and stat value of the league leader of a given stat.
+ * @param {Object} nbaData - Data fetched from sports API
+ * @param {string} statDesc - Description of the stat (must match sports API)
+ */
+function getLeagueLeader(nbaData, statDesc) {
+  if (!Array.isArray(nbaData)) {
+    console.log(errorMessage('nbaData is not an array'));
+  }
+  if (typeof(statDesc) !== 'string') {
+    console.log(errorMessage('statDesc is not a string'));
+  }
+
+  let leagueLeader = {
+    'name': '',
+    'value': 0
+  };
+
+  nbaData.forEach((datum, idx) => {
+    if (!datum.hasOwnProperty('player')) {
+      console.log(errorMessage('nbaData[' + idx + '] | No player property'));
+    }
+    if (!datum.hasOwnProperty('stats')) {
+      console.log(errorMessage('nbaData[' + idx + '] | No stats property'));
+    }
+
+    const value = parseFloat(datum.stats[statDesc]['#text']);
+    if (value > leagueLeader.value) {
+      leagueLeader.value = value;
+      leagueLeader.name = datum.player.FirstName + ' ' + datum.player.LastName;
+    }
+  });
+
+  return leagueLeader;
+}
+
+/**
+ * Get the leavue average value of a given stat.
+ * @param {Object} nbaData - Data fetched from sports API
+ * @param {string} statDesc - Description of the stat (must match sports API)
+ */
+function getLeagueAverage(nbaData, statDesc) {
+  return 6.8;
+}
