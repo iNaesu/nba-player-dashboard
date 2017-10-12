@@ -15,3 +15,6 @@
 # Additional features
 * Tooltips and animation on hover on graphs
 * Add player number to Profile card
+
+# Questions
+* Error handling???
