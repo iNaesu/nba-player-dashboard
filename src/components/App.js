@@ -6,6 +6,7 @@ import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
 import lastSeasonData from '../2016-2017-data.js'
+import throwError from '../error.js'
 
 /* Import Style */
 import '../style/components/App.css';
@@ -216,10 +217,6 @@ export default class App extends React.Component {
   }
 }
 
-function errorMessage(message) {
-  return 'Error: ' + message;
-}
-
 /**
  * Get the player name and stat value of the league leader of a given stat.
  * @param {Object} nbaData - Data fetched from sports API
@@ -227,10 +224,10 @@ function errorMessage(message) {
  */
 function getLeagueLeader(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
-    console.log(errorMessage('nbaData is not an array'));
+    throwError('getLeagueLeader() | nbaData is not an array');
   }
   if (typeof(statDesc) !== 'string') {
-    console.log(errorMessage('statDesc is not a string'));
+    throwError('getLeagueLeader() | statDesc is not a string');
   }
 
   let leagueLeader = {
@@ -256,10 +253,10 @@ function getLeagueLeader(nbaData, statDesc) {
  */
 function getLeagueAverage(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
-    console.log(errorMessage('nbaData is not an array'));
+    throwError('getLeagueAverage() | nbaData is not an array');
   }
   if (typeof(statDesc) !== 'string') {
-    console.log(errorMessage('statDesc is not a string'));
+    throwError('getLeagueAverage() | statDesc is not a string');
   }
 
   const total = nbaData.reduce((currentTotal, datum) => {
