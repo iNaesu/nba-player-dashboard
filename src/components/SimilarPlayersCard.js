@@ -6,21 +6,24 @@ export default function SimilarPlayersCard(props) {
 
   const similarPlayersList = [
     {
-      'playerName': props.similarPlayer0,
+      'firstName': props.firstName0,
+      'lastName': props.lastName0,
       'img': props.img0,
       'ppg': props.ppg0,
       'apg': props.apg0,
       'rpg': props.rpg0
     },
     {
-      'playerName': props.similarPlayer1,
+      'firstName': props.firstName1,
+      'lastName': props.lastName1,
       'img': props.img1,
       'ppg': props.ppg1,
       'apg': props.apg1,
       'rpg': props.rpg1
     },
     {
-      'playerName': props.similarPlayer2,
+      'firstName': props.firstName2,
+      'lastName': props.lastName2,
       'img': props.img2,
       'ppg': props.ppg2,
       'apg': props.apg2,
@@ -30,8 +33,8 @@ export default function SimilarPlayersCard(props) {
 
   const playerAvatarList = similarPlayersList.map((player) =>
     <PlayerAvatar
-      key={player.playerName}
-      playerName={player.playerName} img={player.img}
+      key={player.firstName + '_' + player.lastName}
+      playerName={player.firstName + ' ' + player.lastName} img={player.img}
       ppg={player.ppg} apg={player.apg} rpg={player.rpg}
     />
   );

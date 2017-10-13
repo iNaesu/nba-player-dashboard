@@ -11,13 +11,14 @@ export default function ProfileCard(props) {
 
       <div className='ProfileCard-content-wrapper'>
         <div className='ProfileCard-text-wrapper'>
-          <h1>{props.playerName}</h1>
+          <h1>{props.firstName}</h1>
+          <h1>{props.lastName}</h1>
           <hr className='ProfileCard-line'/>
           <p>{props.team}</p>
           <p>{props.position}</p>
         </div>
         <div className='ProfileCard-img-wrapper'>
-          <img src={props.img} alt={props.playerName} />
+          <img src={props.img} alt={props.firstName + '_' + props.lastName} />
         </div>
       </div>
 

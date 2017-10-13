@@ -22,21 +22,24 @@ export default function LeagueComparisonCard(props) {
   const statList = [
     {
       'statType': 'ppg',
-      'leagueLeaderName': props.ppgLeaderName,
+      'leagueLeaderFirstName': props.ppgLeaderFirstName,
+      'leagueLeaderLastName': props.ppgLeaderLastName,
       'leagueLeaderValue': props.leaderPpg,
       'leagueAverageValue': props.averagePpg,
       'playerValue': props.playerPpg
     },
     {
       'statType': 'apg',
-      'leagueLeaderName': props.apgLeaderName,
+      'leagueLeaderFirstName': props.apgLeaderFirstName,
+      'leagueLeaderLastName': props.apgLeaderLastName,
       'leagueLeaderValue': props.leaderApg,
       'leagueAverageValue': props.averageApg,
       'playerValue': props.playerApg
     },
     {
       'statType': 'rpg',
-      'leagueLeaderName': props.rpgLeaderName,
+      'leagueLeaderFirstName': props.rpgLeaderFirstName,
+      'leagueLeaderLastName': props.rpgLeaderLastName,
       'leagueLeaderValue': props.leaderRpg,
       'leagueAverageValue': props.averageRpg,
       'playerValue': props.playerRpg
@@ -60,7 +63,8 @@ export default function LeagueComparisonCard(props) {
         data={[
           {
             x: idx + 1, y: stat.playerValue,
-            text: props.playerName + ' - ' + stat.playerValue.toFixed(1)
+            text: props.firstName + ' ' + props.lastName + ' - '
+                  + stat.playerValue.toFixed(1)
                   + stat.statType,
             fill: highlightColor
           }
@@ -87,7 +91,8 @@ export default function LeagueComparisonCard(props) {
             {
               x: idx + 1,
               y: stat.leagueLeaderValue - stat.leagueAverageValue,
-              text: stat.leagueLeaderName + ' - '
+              text: stat.leagueLeaderFirstName + ' '
+              + stat.leagueLeaderLastName + ' - '
               + stat.leagueLeaderValue.toFixed(1) + stat.statType,
               fill: midlightColor
             }
