@@ -56,19 +56,19 @@ export default class App extends React.Component {
       ],
       'leagueStats': {
         'ppg': {
-          'leagueLeaderName': 'Russell Westbrook',
-          'leagueLeaderValue': 32,
-          'leagueAverageValue': 5.4
+          'leagueLeaderName': '',
+          'leagueLeaderValue': 0,
+          'leagueAverageValue': 0
         },
         'apg': {
-          'leagueLeaderName': 'James Harden',
-          'leagueLeaderValue': 12.8,
-          'leagueAverageValue': 2.4
+          'leagueLeaderName': '',
+          'leagueLeaderValue': 0,
+          'leagueAverageValue': 0
         },
         'rpg': {
-          'leagueLeaderName': 'Hassan Whiteside',
-          'leagueLeaderValue': 15,
-          'leagueAverageValue': 6.4
+          'leagueLeaderName': '',
+          'leagueLeaderValue': 0,
+          'leagueAverageValue': 0
         }
       }
     }

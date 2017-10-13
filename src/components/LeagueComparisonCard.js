@@ -98,8 +98,7 @@ export default function LeagueComparisonCard(props) {
     </VictoryGroup>
   );
 
-  /* Round up yMax to closest 5 */
-  const yMax = Math.ceil(props.leaderPpg / 5) * 5;
+  const yMax = 35;
   let leagueComparisonCard = {};
 
   if (screenWidth >= layoutBreakpoint) {
