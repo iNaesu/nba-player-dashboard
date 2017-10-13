@@ -239,13 +239,6 @@ function getLeagueLeader(nbaData, statDesc) {
   };
 
   nbaData.forEach((datum, idx) => {
-    if (!datum.hasOwnProperty('player')) {
-      console.log(errorMessage('nbaData[' + idx + '] | No player property'));
-    }
-    if (!datum.hasOwnProperty('stats')) {
-      console.log(errorMessage('nbaData[' + idx + '] | No stats property'));
-    }
-
     const value = parseFloat(datum.stats[statDesc]['#text']);
     if (value > leagueLeader.value) {
       leagueLeader.value = value;
@@ -262,5 +255,16 @@ function getLeagueLeader(nbaData, statDesc) {
  * @param {string} statDesc - Description of the stat (must match sports API)
  */
 function getLeagueAverage(nbaData, statDesc) {
-  return 6.8;
+  if (!Array.isArray(nbaData)) {
+    console.log(errorMessage('nbaData is not an array'));
+  }
+  if (typeof(statDesc) !== 'string') {
+    console.log(errorMessage('statDesc is not a string'));
+  }
+
+  const total = nbaData.reduce((currentTotal, datum) => {
+    return (currentTotal + parseFloat(datum.stats[statDesc]['#text']));
+  }, 0);
+
+  return total / nbaData.length;
 }
