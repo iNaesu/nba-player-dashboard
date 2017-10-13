@@ -132,6 +132,12 @@ export default class App extends React.Component {
           }
         }
       });
+    })
+    .then(() => {
+      const player = getRandomPlayerName();
+      playerInfo = getPlayerInfo(
+        this.state.nbaData, player.firstName, player.lastName
+      );
     });
   }
 
@@ -269,7 +275,7 @@ function getLeagueLeader(nbaData, statDesc) {
 }
 
 /**
- * Get the leavue average value of a given stat.
+ * Get the league average value of a given stat.
  * @param {Object} nbaData - Data fetched from sports API
  * @param {string} statDesc - Description of the stat (must match sports API)
  */
@@ -286,4 +292,28 @@ function getLeagueAverage(nbaData, statDesc) {
   }, 0);
 
   return total / nbaData.length;
+}
+
+/**
+ * Return the first and last name of a random player.
+ */
+function getRandomPlayerName() {
+  const playerList = [
+    { 'firstName': 'LeBron', 'lastName': 'James' },
+    { 'firstName': 'Stephen', 'lastName': 'Curry' },
+    { 'firstName': 'Kevin', 'lastName': 'Durant' },
+    { 'firstName': 'Russell', 'lastName': 'Westbrook' },
+    { 'firstName': 'James', 'lastName': 'Harden' },
+    { 'firstName': 'Kawhi', 'lastName': 'Leonard' },
+    { 'firstName': 'Anthony', 'lastName': 'Davis' },
+    { 'firstName': 'Chris', 'lastName': 'Paul' },
+    { 'firstName': 'Jimmy', 'lastName': 'Butler' },
+    { 'firstName': 'Kyrie', 'lastName': 'Irving' },
+  ];
+
+  const i = Math.floor(Math.random() * (playerList.length - 1));
+  return {
+    'firstName': playerList[i].firstName,
+    'lastName':playerList[i].lastName
+  };
 }
