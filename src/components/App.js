@@ -22,7 +22,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       'nbaData': lastSeasonData.playerstatsentry,
-      'currentPlayer': {
+      'playerInfo': {
         'firstName': 'Giannis',
         'lastName': 'Antetokounmpo',
         'img': irvingImg,
@@ -110,34 +110,40 @@ export default class App extends React.Component {
       const assistsLeader = getLeagueLeader(nbaData, 'AstPerGame');
       const reboundsLeader = getLeagueLeader(nbaData, 'RebPerGame');
 
-      this.setState({
-        'leagueStats': {
-          'ppg': {
-            'firstName': pointsLeader.firstName,
-            'lastName': pointsLeader.lastName,
-            'leagueLeaderValue': pointsLeader.value,
-            'leagueAverageValue': getLeagueAverage(nbaData, 'PtsPerGame')
-          },
-          'apg': {
-            'firstName': assistsLeader.firstName,
-            'lastName': assistsLeader.lastName,
-            'leagueLeaderValue': assistsLeader.value,
-            'leagueAverageValue': getLeagueAverage(nbaData,'AstPerGame')
-          },
-          'rpg': {
-            'firstName': reboundsLeader.firstName,
-            'lastName': reboundsLeader.lastName,
-            'leagueLeaderValue': reboundsLeader.value,
-            'leagueAverageValue': getLeagueAverage(nbaData,'RebPerGame')
-          }
+      const leagueStats = {
+        'ppg': {
+          'firstName': pointsLeader.firstName,
+          'lastName': pointsLeader.lastName,
+          'leagueLeaderValue': pointsLeader.value,
+          'leagueAverageValue': getLeagueAverage(nbaData, 'PtsPerGame')
+        },
+        'apg': {
+          'firstName': assistsLeader.firstName,
+          'lastName': assistsLeader.lastName,
+          'leagueLeaderValue': assistsLeader.value,
+          'leagueAverageValue': getLeagueAverage(nbaData,'AstPerGame')
+        },
+        'rpg': {
+          'firstName': reboundsLeader.firstName,
+          'lastName': reboundsLeader.lastName,
+          'leagueLeaderValue': reboundsLeader.value,
+          'leagueAverageValue': getLeagueAverage(nbaData,'RebPerGame')
         }
-      });
+      };
+      console.log(leagueStats);
     })
+    /* Get player info and similar players */
     .then(() => {
       const player = getRandomPlayerName();
-      playerInfo = getPlayerInfo(
+      getPlayerInfo(
         this.state.nbaData, player.firstName, player.lastName
-      );
+      )
+      .then(playerInfo => {
+        console.log(playerInfo);
+      })
+      .catch(error => {
+        throwError('getPlayerInfo() | ' + error);
+      });
     });
   }
 
@@ -155,18 +161,18 @@ export default class App extends React.Component {
 
             <div className='ProfileCard-StatCards-wrapper'>
               <ProfileCard
-                firstName={this.state.currentPlayer.firstName}
-                lastName={this.state.currentPlayer.lastName}
-                img={this.state.currentPlayer.img}
-                team={this.state.currentPlayer.team}
-                position={this.state.currentPlayer.position}
+                firstName={this.state.playerInfo.firstName}
+                lastName={this.state.playerInfo.lastName}
+                img={this.state.playerInfo.img}
+                team={this.state.playerInfo.team}
+                position={this.state.playerInfo.position}
               />
 
               <div className='StatCards-wrapper'>
                 <StatCard
                   id='ppg-card'
                   statName={['Points', 'Per Game']}
-                  value={this.state.currentPlayer.ppg}
+                  value={this.state.playerInfo.ppg}
                   leagueLeaderValue={
                     this.state.leagueStats.ppg.leagueLeaderValue
                   }
@@ -174,7 +180,7 @@ export default class App extends React.Component {
                 <StatCard
                   id='apg-card'
                   statName={['Assists', 'Per Game']}
-                  value={this.state.currentPlayer.apg}
+                  value={this.state.playerInfo.apg}
                   leagueLeaderValue={
                     this.state.leagueStats.apg.leagueLeaderValue
                   }
@@ -182,7 +188,7 @@ export default class App extends React.Component {
                 <StatCard
                   id='rpg-card'
                   statName={['Rebounds', 'Per Game']}
-                  value={this.state.currentPlayer.rpg}
+                  value={this.state.playerInfo.rpg}
                   leagueLeaderValue={
                     this.state.leagueStats.rpg.leagueLeaderValue
                   }
@@ -214,25 +220,25 @@ export default class App extends React.Component {
             />
 
             <LeagueComparisonCard
-              firstName={this.state.currentPlayer.firstName}
-              lastName={this.state.currentPlayer.lastName}
+              firstName={this.state.playerInfo.firstName}
+              lastName={this.state.playerInfo.lastName}
 
               ppgLeaderFirstName={this.state.leagueStats.ppg.firstName}
               ppgLeaderLastName={this.state.leagueStats.ppg.lastName}
               leaderPpg={this.state.leagueStats.ppg.leagueLeaderValue}
-              playerPpg={this.state.currentPlayer.ppg}
+              playerPpg={this.state.playerInfo.ppg}
               averagePpg={this.state.leagueStats.ppg.leagueAverageValue}
 
               apgLeaderFirstName={this.state.leagueStats.apg.firstName}
               apgLeaderLastName={this.state.leagueStats.apg.lastName}
               leaderApg={this.state.leagueStats.apg.leagueLeaderValue}
-              playerApg={this.state.currentPlayer.apg}
+              playerApg={this.state.playerInfo.apg}
               averageApg={this.state.leagueStats.apg.leagueAverageValue}
 
               rpgLeaderFirstName={this.state.leagueStats.rpg.firstName}
               rpgLeaderLastName={this.state.leagueStats.rpg.lastName}
               leaderRpg={this.state.leagueStats.rpg.leagueLeaderValue}
-              playerRpg={this.state.currentPlayer.rpg}
+              playerRpg={this.state.playerInfo.rpg}
               averageRpg={this.state.leagueStats.rpg.leagueAverageValue}
             />
 
@@ -316,4 +322,85 @@ function getRandomPlayerName() {
     'firstName': playerList[i].firstName,
     'lastName':playerList[i].lastName
   };
+}
+
+/**
+ * Return info for the given player
+ * @param {Object} nbaData - Data fetched from sports API
+ * @param {String} firstName
+ * @param {String} lastName
+ */
+function getPlayerInfo(nbaData, firstName, lastName) {
+  return new Promise(function(resolve, reject) {
+    const baseUrl = 'http://localhost:8000/players/';
+    const fullUrl = baseUrl + lastName + '/' + firstName;
+    let playerInfo = {
+      'firstName': '',
+      'lastName': '',
+      'img': '',
+      'team': '',
+      'position': '',
+      'ppg': 0,
+      'apg': 0,
+      'rpg': 0
+    };
+
+    /* Fetch image first before getting other details because the image takes
+     * the longest */
+    fetch(fullUrl, { mode: 'cors' })
+    .then(response => {
+      return response.blob();
+    })
+    .then(responseBlob => {
+      playerInfo.img = URL.createObjectURL(responseBlob);
+
+      for (let i = 0; i < nbaData.length; i++) {
+        if (
+          (nbaData[i].player.FirstName === firstName)
+          && (nbaData[i].player.LastName === lastName)
+        ) {
+          playerInfo.firstName = nbaData[i].player.FirstName;
+          playerInfo.lastName = nbaData[i].player.LastName;
+          playerInfo.position = getFullPositionName(nbaData[i].player.Position);
+          playerInfo.team = nbaData[i].team.City + ' ' + nbaData[i].team.Name;
+          playerInfo.ppg = parseFloat(nbaData[i].stats.PtsPerGame['#text']);
+          playerInfo.apg = parseFloat(nbaData[i].stats.AstPerGame['#text']);
+          playerInfo.rpg = parseFloat(nbaData[i].stats.RebPerGame['#text']);
+        }
+      }
+      resolve(playerInfo);
+    })
+    .catch(error => {
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Return the full name for a given a position given it's acronym.
+ * @param {String} position - PG, SG, SF, PF or C
+ */
+function getFullPositionName(position) {
+  let fullPositionName = 'Invalid';
+
+  switch(position) {
+    case 'PG':
+      fullPositionName = 'Point Guard';
+      break;
+    case 'SG':
+      fullPositionName = 'Shooting Guard';
+      break;
+    case 'SF':
+      fullPositionName = 'Small Forward';
+      break;
+    case 'PF':
+      fullPositionName = 'Power Forward';
+      break;
+    case 'C':
+      fullPositionName = 'Center';
+      break;
+    default:
+  }
+
+  return fullPositionName;
 }
