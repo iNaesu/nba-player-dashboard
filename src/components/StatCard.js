@@ -15,9 +15,17 @@ export default class StatCard extends React.Component {
   }
 
   componentDidMount() {
-    let value = this.props.value;
-    let leagueLeaderValue = this.props.leagueLeaderValue;
-    this.setState({value, leagueLeaderValue});
+    this.state = {
+      value: this.props.value,
+      leagueLeaderValue: this.props.leagueLeaderValue
+    };
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.state = {
+      value: newProps.value,
+      leagueLeaderValue: newProps.leagueLeaderValue
+    };
   }
 
   render() {

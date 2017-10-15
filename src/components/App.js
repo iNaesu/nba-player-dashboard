@@ -130,6 +130,9 @@ export default class App extends React.Component {
           'leagueAverageValue': getLeagueAverage(nbaData,'RebPerGame')
         }
       };
+      this.setState({
+        'leagueStats': leagueStats,
+      });
       console.log(leagueStats);
     })
     /* Get player info and similar players */
@@ -140,6 +143,9 @@ export default class App extends React.Component {
       )
       .then(playerInfo => {
         console.log(playerInfo);
+        this.setState({
+          'playerInfo': playerInfo,
+        });
       })
       .catch(error => {
         throwError('getPlayerInfo() | ' + error);
