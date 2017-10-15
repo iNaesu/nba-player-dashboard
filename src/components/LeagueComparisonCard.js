@@ -204,7 +204,6 @@ export default function LeagueComparisonCard(props) {
 
 class CustomLabel extends React.Component {
   static defaultEvents = VictoryTooltip.defaultEvents;
-  static propTypes = {text: PropTypes.string};
 
   render() {
     return (
