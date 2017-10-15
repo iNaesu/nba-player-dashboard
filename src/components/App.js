@@ -5,7 +5,7 @@ import ProfileCard from './ProfileCard.js'
 import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
-import lastSeasonData from '../2016-2017-data.js'
+import { data20162017 } from '../2016-2017-data.js'
 import throwError from '../error.js'
 
 /* Import Style */
@@ -21,7 +21,7 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      'nbaData': lastSeasonData.playerstatsentry,
+      'nbaData': data20162017.cumulativeplayerstats.playerstatsentry,
       'playerInfo': {
         'firstName': '',
         'lastName': '',
@@ -81,58 +81,37 @@ export default class App extends React.Component {
     }
   }
 
-  /* Fetch data & trigger rest of the app */
   componentDidMount() {
+    /* Fetch data & trigger rest of the app */
     const nbaDataUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nba/'
                        + '2016-2017-regular/cumulative_player_stats.json?'
                        + 'playerstats=PTS/G,AST/G,REB/G';
-    fetch(nbaDataUrl, {
-       method: 'get',
-       headers: {
-         'Authorization': 'Basic '+btoa('iNaesu:mysportsfeeds'),
-         'Content-Type': 'application/x-www-form-urlencoded'
-       }
-    })
-    .then(response => {
-      return response.json();
-    })
+    const fetchOptions = {
+      method: 'get',
+      headers: {
+        'Authorization': 'Basic '+btoa('iNaesu:mysportsfeeds'),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    Promise.race([
+      fetch(nbaDataUrl, fetchOptions),
+      timeout(5000, 'NBA data fetch failed. Using 2016-2017 data instead')
+    ])
+    .then(
+      response => response.json(),
+      error => console.log(error)
+    )
     /* save nbaData */
     .then(nbaData => {
-      this.setState({
-        'nbaData': nbaData.cumulativeplayerstats.playerstatsentry
-      });
+      if (nbaData) {
+        this.setState({
+          'nbaData': nbaData.cumulativeplayerstats.playerstatsentry
+        });
+      }
     })
     /* get league stats */
     .then(() => {
-      const nbaData = this.state.nbaData;
-
-      const pointsLeader = getLeagueLeader(nbaData, 'PtsPerGame');
-      const assistsLeader = getLeagueLeader(nbaData, 'AstPerGame');
-      const reboundsLeader = getLeagueLeader(nbaData, 'RebPerGame');
-
-      const leagueStats = {
-        'ppg': {
-          'firstName': pointsLeader.firstName,
-          'lastName': pointsLeader.lastName,
-          'leagueLeaderValue': pointsLeader.value,
-          'leagueAverageValue': getLeagueAverage(nbaData, 'PtsPerGame')
-        },
-        'apg': {
-          'firstName': assistsLeader.firstName,
-          'lastName': assistsLeader.lastName,
-          'leagueLeaderValue': assistsLeader.value,
-          'leagueAverageValue': getLeagueAverage(nbaData,'AstPerGame')
-        },
-        'rpg': {
-          'firstName': reboundsLeader.firstName,
-          'lastName': reboundsLeader.lastName,
-          'leagueLeaderValue': reboundsLeader.value,
-          'leagueAverageValue': getLeagueAverage(nbaData,'RebPerGame')
-        }
-      };
-      this.setState({
-        'leagueStats': leagueStats,
-      });
+      const leagueStats = getLeagueStats(this.state.nbaData);
       console.log(leagueStats);
     })
     /* Get player info and similar players */
@@ -143,9 +122,6 @@ export default class App extends React.Component {
       )
       .then(playerInfo => {
         console.log(playerInfo);
-        this.setState({
-          'playerInfo': playerInfo,
-        });
       })
       .catch(error => {
         throwError('getPlayerInfo() | ' + error);
@@ -288,7 +264,7 @@ function getLeagueLeader(nbaData, statDesc) {
 
 /**
  * Get the league average value of a given stat.
- * @param {Object} nbaData - Data fetched from sports API
+ * @param {Object} nbaData
  * @param {string} statDesc - Description of the stat (must match sports API)
  */
 function getLeagueAverage(nbaData, statDesc) {
@@ -306,6 +282,36 @@ function getLeagueAverage(nbaData, statDesc) {
   return total / nbaData.length;
 }
 
+/**
+ * Get league stats (league leader name + stat & league average)
+ * @param {Object} nbaData
+ */
+function getLeagueStats(nbaData) {
+  const pointsLeader = getLeagueLeader(nbaData, 'PtsPerGame');
+  const assistsLeader = getLeagueLeader(nbaData, 'AstPerGame');
+  const reboundsLeader = getLeagueLeader(nbaData, 'RebPerGame');
+
+  return {
+    'ppg': {
+      'firstName': pointsLeader.firstName,
+      'lastName': pointsLeader.lastName,
+      'leagueLeaderValue': pointsLeader.value,
+      'leagueAverageValue': getLeagueAverage(nbaData, 'PtsPerGame')
+    },
+    'apg': {
+      'firstName': assistsLeader.firstName,
+      'lastName': assistsLeader.lastName,
+      'leagueLeaderValue': assistsLeader.value,
+      'leagueAverageValue': getLeagueAverage(nbaData,'AstPerGame')
+    },
+    'rpg': {
+      'firstName': reboundsLeader.firstName,
+      'lastName': reboundsLeader.lastName,
+      'leagueLeaderValue': reboundsLeader.value,
+      'leagueAverageValue': getLeagueAverage(nbaData,'RebPerGame')
+    }
+  };
+}
 /**
  * Return the first and last name of a random player.
  */
@@ -332,7 +338,7 @@ function getRandomPlayerName() {
 
 /**
  * Return info for the given player
- * @param {Object} nbaData - Data fetched from sports API
+ * @param {Object} nbaData
  * @param {String} firstName
  * @param {String} lastName
  */
@@ -409,4 +415,15 @@ function getFullPositionName(position) {
   }
 
   return fullPositionName;
+}
+
+/**
+ * Returns a promise that rejects after a given time.
+ * @param {Number} ms - Time in milliseconds
+ * @param {String} errorMsg
+ */
+function timeout(ms, errorMsg) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject(errorMsg), ms)
+  })
 }
