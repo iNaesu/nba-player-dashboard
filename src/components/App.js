@@ -23,14 +23,14 @@ export default class App extends React.Component {
     this.state = {
       'nbaData': lastSeasonData.playerstatsentry,
       'playerInfo': {
-        'firstName': 'Giannis',
-        'lastName': 'Antetokounmpo',
+        'firstName': '',
+        'lastName': '',
         'img': irvingImg,
-        'team': 'Minnesota Timberwolves',
-        'position': 'Point Guard',
-        'ppg': 21.0,
-        'apg': 8.4,
-        'rpg': 2.1,
+        'team': '',
+        'position': '',
+        'ppg': 0,
+        'apg': 0,
+        'rpg': 0,
       },
       'similarPlayersList': [
         {
