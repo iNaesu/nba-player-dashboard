@@ -13,7 +13,7 @@ import '../style/components/App.css';
 
 /* Import images */
 import curryImg from '../img/curry.png';
-import irvingImg from '../img/irving.png';
+import genericPlayerImg from '../img/empty.png';
 import wallImg from '../img/wall.png';
 import westbrookImg from '../img/westbrook.png';
 
@@ -25,7 +25,7 @@ export default class App extends React.Component {
       'playerInfo': {
         'firstName': '',
         'lastName': '',
-        'img': irvingImg,
+        'img': '',
         'team': '',
         'position': '',
         'ppg': 0,
@@ -124,7 +124,7 @@ export default class App extends React.Component {
         console.log(playerInfo);
       })
       .catch(error => {
-        throwError('getPlayerInfo() | ' + error);
+        throwError(error);
       });
     });
   }
@@ -344,47 +344,50 @@ function getRandomPlayerName() {
  */
 function getPlayerInfo(nbaData, firstName, lastName) {
   return new Promise(function(resolve, reject) {
+    let playerInfo = {};
+    let playerFound = false;
+
+    /* Search for player */
+    for (let i = 0; i < nbaData.length; i++) {
+      if (
+        (nbaData[i].player.FirstName === firstName)
+        && (nbaData[i].player.LastName === lastName)
+      ) {
+        playerFound = true;
+
+        playerInfo.firstName = nbaData[i].player.FirstName;
+        playerInfo.lastName = nbaData[i].player.LastName;
+        playerInfo.position = getFullPositionName(nbaData[i].player.Position);
+        playerInfo.team = nbaData[i].team.City + ' ' + nbaData[i].team.Name;
+        playerInfo.ppg = parseFloat(nbaData[i].stats.PtsPerGame['#text']);
+        playerInfo.apg = parseFloat(nbaData[i].stats.AstPerGame['#text']);
+        playerInfo.rpg = parseFloat(nbaData[i].stats.RebPerGame['#text']);
+        playerInfo.img = genericPlayerImg;
+      }
+    }
+
+    if (!playerFound) {
+      reject('getPlayerInfo() | ' + firstName + ' ' + lastName +' not found');
+    }
+
+    /* Try to fetch player image */
     const baseUrl = 'http://localhost:8000/players/';
     const fullUrl = baseUrl + lastName + '/' + firstName;
-    let playerInfo = {
-      'firstName': '',
-      'lastName': '',
-      'img': '',
-      'team': '',
-      'position': '',
-      'ppg': 0,
-      'apg': 0,
-      'rpg': 0
-    };
-
-    /* Fetch image first before getting other details because the image takes
-     * the longest */
-    fetch(fullUrl, { mode: 'cors' })
-    .then(response => {
-      return response.blob();
-    })
+    Promise.race([
+      fetch(fullUrl, { mode: 'cors' }),
+      timeout(5000, firstName + ' ' + lastName + ' | Image fetch timeout')
+    ])
+    .then(
+      response => response.blob(),
+      error => console.log(error)
+    )
     .then(responseBlob => {
-      playerInfo.img = URL.createObjectURL(responseBlob);
-
-      for (let i = 0; i < nbaData.length; i++) {
-        if (
-          (nbaData[i].player.FirstName === firstName)
-          && (nbaData[i].player.LastName === lastName)
-        ) {
-          playerInfo.firstName = nbaData[i].player.FirstName;
-          playerInfo.lastName = nbaData[i].player.LastName;
-          playerInfo.position = getFullPositionName(nbaData[i].player.Position);
-          playerInfo.team = nbaData[i].team.City + ' ' + nbaData[i].team.Name;
-          playerInfo.ppg = parseFloat(nbaData[i].stats.PtsPerGame['#text']);
-          playerInfo.apg = parseFloat(nbaData[i].stats.AstPerGame['#text']);
-          playerInfo.rpg = parseFloat(nbaData[i].stats.RebPerGame['#text']);
-        }
+      if (responseBlob) {
+        playerInfo.img = URL.createObjectURL(responseBlob);
       }
-      resolve(playerInfo);
     })
-    .catch(error => {
-      reject(error);
-    });
+
+    resolve(playerInfo);
   });
 }
 
