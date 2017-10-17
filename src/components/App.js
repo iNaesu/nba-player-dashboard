@@ -117,11 +117,14 @@ export default class App extends React.Component {
     /* Get player info and similar players */
     .then(() => {
       const player = getRandomPlayerName();
-      getPlayerInfo(
+      const p1 = getPlayerInfo(
         this.state.nbaData, player.firstName, player.lastName
-      )
-      .then(playerInfo => {
-        console.log(playerInfo);
+      );
+      const p2 = getSimilarPlayersList(
+        this.state.nbaData, player.firstName, player.lastName
+      );
+      Promise.all([p1, p2]).then(values => {
+        console.log(values);
       })
       .catch(error => {
         throwError(error);
@@ -235,6 +238,7 @@ export default class App extends React.Component {
  * Get the player name and stat value of the league leader of a given stat.
  * @param {Object} nbaData - nbaData fetched from sports API
  * @param {string} statDesc - Description of the stat (must match sports API)
+ * @return {Object} leagueLeader
  */
 function getLeagueLeader(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
@@ -266,6 +270,7 @@ function getLeagueLeader(nbaData, statDesc) {
  * Get the league average value of a given stat.
  * @param {Object} nbaData
  * @param {string} statDesc - Description of the stat (must match sports API)
+ * @return {Number} league average for a given stat
  */
 function getLeagueAverage(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
@@ -285,6 +290,7 @@ function getLeagueAverage(nbaData, statDesc) {
 /**
  * Get league stats (league leader name + stat & league average)
  * @param {Object} nbaData
+ * @return {Object} leagueStats - compatible with state.leagueStats
  */
 function getLeagueStats(nbaData) {
   const pointsLeader = getLeagueLeader(nbaData, 'PtsPerGame');
@@ -312,8 +318,10 @@ function getLeagueStats(nbaData) {
     }
   };
 }
+
 /**
  * Return the first and last name of a random player.
+ * @return {Object} player - Random player from a list
  */
 function getRandomPlayerName() {
   const playerList = [
@@ -337,38 +345,30 @@ function getRandomPlayerName() {
 }
 
 /**
- * Return info for the given player
+ * Return a promise that resolves with a player info object for the given player
+ * (in a form that is compatible with state.playerInfo)
  * @param {Object} nbaData
  * @param {String} firstName
  * @param {String} lastName
+ * @return {Promise} resolve(playerInfo) - compatible with state.playerInfo
  */
 function getPlayerInfo(nbaData, firstName, lastName) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let playerInfo = {};
-    let playerFound = false;
 
     /* Search for player */
-    for (let i = 0; i < nbaData.length; i++) {
-      if (
-        (nbaData[i].player.FirstName === firstName)
-        && (nbaData[i].player.LastName === lastName)
-      ) {
-        playerFound = true;
-
-        playerInfo.firstName = nbaData[i].player.FirstName;
-        playerInfo.lastName = nbaData[i].player.LastName;
-        playerInfo.position = getFullPositionName(nbaData[i].player.Position);
-        playerInfo.team = nbaData[i].team.City + ' ' + nbaData[i].team.Name;
-        playerInfo.ppg = parseFloat(nbaData[i].stats.PtsPerGame['#text']);
-        playerInfo.apg = parseFloat(nbaData[i].stats.AstPerGame['#text']);
-        playerInfo.rpg = parseFloat(nbaData[i].stats.RebPerGame['#text']);
-        playerInfo.img = genericPlayerImg;
-      }
-    }
-
-    if (!playerFound) {
+    const p = getPlayerFromList(nbaData, firstName, lastName);
+    if (!p) {
       reject('getPlayerInfo() | ' + firstName + ' ' + lastName +' not found');
     }
+    playerInfo.firstName = p.player.FirstName;
+    playerInfo.lastName = p.player.LastName;
+    playerInfo.position = getFullPositionName(p.player.Position);
+    playerInfo.team = p.team.City + ' ' + p.team.Name;
+    playerInfo.ppg = parseFloat(p.stats.PtsPerGame['#text']);
+    playerInfo.apg = parseFloat(p.stats.AstPerGame['#text']);
+    playerInfo.rpg = parseFloat(p.stats.RebPerGame['#text']);
+    playerInfo.img = genericPlayerImg;
 
     /* Try to fetch player image */
     const baseUrl = 'http://localhost:8000/players/';
@@ -394,6 +394,7 @@ function getPlayerInfo(nbaData, firstName, lastName) {
 /**
  * Return the full name for a given a position given it's acronym.
  * @param {String} position - PG, SG, SF, PF or C
+ * @return {String} fullPositionName
  */
 function getFullPositionName(position) {
   let fullPositionName = 'Invalid';
@@ -421,12 +422,93 @@ function getFullPositionName(position) {
 }
 
 /**
- * Returns a promise that rejects after a given time.
+ * Returns a promise that rejects with the given error message after a given
+ * time.
  * @param {Number} ms - Time in milliseconds
  * @param {String} errorMsg
+ * @return {Promise} reject(errorMsg)
  */
 function timeout(ms, errorMsg) {
   return new Promise((resolve, reject) => {
     setTimeout(() => reject(errorMsg), ms)
-  })
+  });
+}
+
+/**
+ * Return a promise that resolves with a list of similar player objects for the
+ * given player (in a form that is compatible with state.similarPlayersList)
+ * @param {Object} nbaData
+ * @param {String} firstName
+ * @param {String} lastName
+ * @return {Promise} resolve(similarPlayersList)
+ */
+function getSimilarPlayersList(nbaData, firstName, lastName) {
+  return new Promise((resolve, reject) => {
+    /* Get data of the reference player */
+    const referencePlayer = getPlayerFromList(nbaData, firstName, lastName);
+    if (!referencePlayer) {
+      reject(
+        'getSimilarPlayersList() | ' + firstName + ' ' + lastName + 'not found'
+      );
+    }
+
+    /* Get playerInfo of top 3 most similar players */
+    nbaData.forEach(datum => {
+      datum.similarityScore = getSimilarityScore(referencePlayer, datum);
+    });
+    nbaData = nbaData.sort((a, b) => {
+      return b.similarityScore - a.similarityScore;
+    });
+    console.log(nbaData[0], nbaData[1], nbaData[2]);
+
+    resolve('getSimilarPlayersList()');
+  });
+}
+
+/**
+ * Return the object for a player from the list of all the player objects given
+ * the player's first and last name.
+ * @param {Object} nbaData
+ * @param {String} firstName
+ * @param {String} lastName
+ * @return {Object} player
+ */
+function getPlayerFromList(nbaData, firstName, lastName) {
+  let player = undefined;
+
+  for (let i = 0; i < nbaData.length; i++) {
+    if (
+      (nbaData[i].player.FirstName === firstName)
+      && (nbaData[i].player.LastName === lastName)
+    ) {
+      player = nbaData[i];
+      break;
+    }
+  }
+
+  return player;
+}
+
+/**
+ * Returns the similarity score of a player to a reference player. The closer
+ * the score is to 1, the more similar the player is to the reference.
+ * @param {Object} reference - The reference player object
+ * @param {Object} player - The player object to compare to reference
+ * @return {Number} similarity
+ */
+function getSimilarityScore(reference, player) {
+  let score = 0;
+
+  const ptsScore = parseFloat(player.stats.PtsPerGame['#text'])
+                  / parseFloat(reference.stats.PtsPerGame['#text']);
+
+  const astScore = parseFloat(player.stats.AstPerGame['#text'])
+                  / parseFloat(reference.stats.AstPerGame['#text']);
+
+  const rebScore = parseFloat(player.stats.RebPerGame['#text'])
+                  / parseFloat(reference.stats.RebPerGame['#text']);
+
+  score = (ptsScore + astScore + rebScore) / 3;
+
+  return score;
 }
