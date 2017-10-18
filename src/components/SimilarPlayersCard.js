@@ -31,9 +31,9 @@ export default function SimilarPlayersCard(props) {
     }
   ];
 
-  const playerAvatarList = similarPlayersList.map((player) =>
+  const playerAvatarList = similarPlayersList.map((player, idx) =>
     <PlayerAvatar
-      key={player.firstName + '_' + player.lastName}
+      key={idx}
       playerName={player.firstName + ' ' + player.lastName} img={player.img}
       ppg={player.ppg} apg={player.apg} rpg={player.rpg}
     />
