@@ -12,10 +12,7 @@ import throwError from '../error.js'
 import '../style/components/App.css';
 
 /* Import images */
-import curryImg from '../img/curry.png';
 import genericPlayerImg from '../img/generic-player.png';
-import wallImg from '../img/wall.png';
-import westbrookImg from '../img/westbrook.png';
 
 export default class App extends React.Component {
   constructor() {
@@ -384,23 +381,23 @@ function getPlayerInfo(nbaData, firstName, lastName) {
     playerInfo.img = genericPlayerImg;
 
     /* Try to fetch player image */
-    const baseUrl = 'http://localhost:8000/players/';
+    const baseUrl = 'https://nba-players.herokuapp.com/players/';
     const fullUrl = baseUrl + lastName + '/' + firstName;
     Promise.race([
       fetch(fullUrl, { mode: 'cors' }),
       timeout(5000, firstName + ' ' + lastName + ' | Image fetch timeout')
     ])
     .then(
-      response => response.blob(),
-      error => console.log(error)
+      response => response.blob()
     )
     .then(responseBlob => {
-      if (responseBlob) {
-        playerInfo.img = URL.createObjectURL(responseBlob);
-      }
+      playerInfo.img = URL.createObjectURL(responseBlob);
+      resolve(playerInfo);
     })
-
-    resolve(playerInfo);
+    .catch(error => {
+      console.log(error);
+      resolve(playerInfo);
+    });
   });
 }
 
