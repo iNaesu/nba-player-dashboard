@@ -341,7 +341,7 @@ function getRandomPlayerName() {
     { 'firstName': 'James', 'lastName': 'Harden' },
     { 'firstName': 'Kawhi', 'lastName': 'Leonard' },
     { 'firstName': 'Anthony', 'lastName': 'Davis' },
-    { 'firstName': 'Chris', 'lastName': 'Paul' },
+    { 'firstName': 'DeMarcus', 'lastName': 'Cousins' },
     { 'firstName': 'Jimmy', 'lastName': 'Butler' },
     { 'firstName': 'Kyrie', 'lastName': 'Irving' },
   ];
