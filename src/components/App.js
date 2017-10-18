@@ -13,7 +13,7 @@ import '../style/components/App.css';
 
 /* Import images */
 import curryImg from '../img/curry.png';
-import genericPlayerImg from '../img/empty.png';
+import genericPlayerImg from '../img/generic-player.png';
 import wallImg from '../img/wall.png';
 import westbrookImg from '../img/westbrook.png';
 
@@ -34,28 +34,28 @@ export default class App extends React.Component {
       },
       'similarPlayersList': [
         {
-          'firstName': 'Kentavious',
-          'lastName': 'Caldwell-pope',
-          'img': curryImg,
-          'ppg': 22.3,
-          'apg': 6.6,
-          'rpg': 2.1
+          'firstName': '',
+          'lastName': '',
+          'img': '',
+          'ppg': 0,
+          'apg': 0,
+          'rpg': 0
         },
         {
-          'firstName': 'John',
-          'lastName': 'Wall',
-          'img': wallImg,
-          'ppg': 20.3,
-          'apg': 6.6,
-          'rpg': 5.1
+          'firstName': '',
+          'lastName': '',
+          'img': '',
+          'ppg': 0,
+          'apg': 0,
+          'rpg': 0
         },
         {
-          'firstName': 'Russell',
-          'lastName': 'Westbrook',
-          'img': westbrookImg,
-          'ppg': 32.0,
-          'apg': 10.0,
-          'rpg': 11.8
+          'firstName': '',
+          'lastName': '',
+          'img': '',
+          'ppg': 0,
+          'apg': 0,
+          'rpg': 0
         }
       ],
       'leagueStats': {
@@ -109,22 +109,30 @@ export default class App extends React.Component {
         });
       }
     })
-    /* get league stats */
-    .then(() => {
-      const leagueStats = getLeagueStats(this.state.nbaData);
-      console.log(leagueStats);
-    })
-    /* Get player info and similar players */
     .then(() => {
       const player = getRandomPlayerName();
+      /* Get player info */
       const p1 = getPlayerInfo(
         this.state.nbaData, player.firstName, player.lastName
       );
+      /* Get similar players list */
       const p2 = getSimilarPlayersList(
         this.state.nbaData, player.firstName, player.lastName
       );
-      Promise.all([p1, p2]).then(values => {
-        console.log(values);
+
+      Promise.all([p1, p2])
+      .then(values => {
+        /* Get league stats */
+        const leagueStats = getLeagueStats(this.state.nbaData);
+        const playerInfo = values[0];
+        const similarPlayersList = values[1];
+
+        /* All the data is ready! Set state to trigger app render */
+        this.setState({
+          'playerInfo': playerInfo,
+          'similarPlayersList': similarPlayersList,
+          'leagueStats': leagueStats
+        });
       })
       .catch(error => {
         throwError(error);
@@ -236,6 +244,7 @@ export default class App extends React.Component {
 
 /**
  * Get the player name and stat value of the league leader of a given stat.
+ *
  * @param {Object} nbaData - nbaData fetched from sports API
  * @param {string} statDesc - Description of the stat (must match sports API)
  * @return {Object} leagueLeader
@@ -268,6 +277,7 @@ function getLeagueLeader(nbaData, statDesc) {
 
 /**
  * Get the league average value of a given stat.
+ *
  * @param {Object} nbaData
  * @param {string} statDesc - Description of the stat (must match sports API)
  * @return {Number} league average for a given stat
@@ -289,6 +299,7 @@ function getLeagueAverage(nbaData, statDesc) {
 
 /**
  * Get league stats (league leader name + stat & league average)
+ *
  * @param {Object} nbaData
  * @return {Object} leagueStats - compatible with state.leagueStats
  */
@@ -321,6 +332,7 @@ function getLeagueStats(nbaData) {
 
 /**
  * Return the first and last name of a random player.
+ *
  * @return {Object} player - Random player from a list
  */
 function getRandomPlayerName() {
@@ -347,6 +359,7 @@ function getRandomPlayerName() {
 /**
  * Return a promise that resolves with a player info object for the given player
  * (in a form that is compatible with state.playerInfo)
+ *
  * @param {Object} nbaData
  * @param {String} firstName
  * @param {String} lastName
@@ -393,6 +406,7 @@ function getPlayerInfo(nbaData, firstName, lastName) {
 
 /**
  * Return the full name for a given a position given it's acronym.
+ *
  * @param {String} position - PG, SG, SF, PF or C
  * @return {String} fullPositionName
  */
@@ -424,6 +438,7 @@ function getFullPositionName(position) {
 /**
  * Returns a promise that rejects with the given error message after a given
  * time.
+ *
  * @param {Number} ms - Time in milliseconds
  * @param {String} errorMsg
  * @return {Promise} reject(errorMsg)
@@ -437,6 +452,7 @@ function timeout(ms, errorMsg) {
 /**
  * Return a promise that resolves with a list of similar player objects for the
  * given player (in a form that is compatible with state.similarPlayersList)
+ *
  * @param {Object} nbaData
  * @param {String} firstName
  * @param {String} lastName
@@ -452,22 +468,50 @@ function getSimilarPlayersList(nbaData, firstName, lastName) {
       );
     }
 
-    /* Get playerInfo of top 3 most similar players */
     nbaData.forEach(datum => {
-      datum.similarityScore = getSimilarityScore(referencePlayer, datum);
+      datum.differenceScore = getDifferenceScore(referencePlayer, datum);
     });
-    nbaData = nbaData.sort((a, b) => {
-      return b.similarityScore - a.similarityScore;
-    });
-    console.log(nbaData[0], nbaData[1], nbaData[2]);
+    /* Order nbaData by similarity & keep the 3 most similar players */
+    const mostSimilarPlayers = nbaData.sort((a, b) => {
+      return (a.differenceScore - b.differenceScore);
+    }).slice(1, 4);
 
-    resolve('getSimilarPlayersList()');
+    /* Get playerInfo of the top 3 most similar players */
+    let promiseList = [];
+    mostSimilarPlayers.forEach(p => {
+      promiseList.push(
+        getPlayerInfo(nbaData, p.player.FirstName, p.player.LastName)
+      );
+    });
+
+    /* Build similarPlayersList (compatible with state.similarPlayersList) */
+    Promise.all(promiseList)
+    .then(values => {
+      let similarPlayersList = [];
+      values.forEach(v => {
+        similarPlayersList.push(
+          {
+            'firstName': v.firstName,
+            'lastName': v.lastName,
+            'img': v.img,
+            'ppg': v.ppg,
+            'apg': v.apg,
+            'rpg': v.rpg
+          },
+        );
+      });
+      resolve(similarPlayersList);
+    })
+    .catch(error => {
+      reject(error);
+    });
   });
 }
 
 /**
  * Return the object for a player from the list of all the player objects given
  * the player's first and last name.
+ *
  * @param {Object} nbaData
  * @param {String} firstName
  * @param {String} lastName
@@ -490,14 +534,19 @@ function getPlayerFromList(nbaData, firstName, lastName) {
 }
 
 /**
- * Returns the similarity score of a player to a reference player. The closer
- * the score is to 1, the more similar the player is to the reference.
+ * Returns the difference score of a player to a reference player. The closer
+ * the score is to 0, the more similar the player is to the reference.
+ *
  * @param {Object} reference - The reference player object
  * @param {Object} player - The player object to compare to reference
- * @return {Number} similarity
+ * @return {Number} difference
  */
-function getSimilarityScore(reference, player) {
+function getDifferenceScore(reference, player) {
   let score = 0;
+
+  if (reference.player.Position !== player.player.Position) {
+    return 999;
+  }
 
   const ptsScore = parseFloat(player.stats.PtsPerGame['#text'])
                   / parseFloat(reference.stats.PtsPerGame['#text']);
@@ -508,7 +557,7 @@ function getSimilarityScore(reference, player) {
   const rebScore = parseFloat(player.stats.RebPerGame['#text'])
                   / parseFloat(reference.stats.RebPerGame['#text']);
 
-  score = (ptsScore + astScore + rebScore) / 3;
+  score = Math.abs(1 - ((ptsScore + astScore + rebScore) / 3));
 
   return score;
 }
