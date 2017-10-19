@@ -1,4 +1,6 @@
 # Todo
+* Deal with fullstops in names
+* Replace this.state. with something less verbose
 * Use transition instead of animation for the circular stat progress bars:
     * Make those components presentational - stateless
     * This means they will be functions instead of classes

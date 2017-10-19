@@ -81,7 +81,7 @@ export default class App extends React.Component {
   componentDidMount() {
     /* Fetch data & trigger rest of the app */
     const nbaDataUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nba/'
-                       + '2016-2017-regular/cumulative_player_stats.json?'
+                       + '2017-2018-regular/cumulative_player_stats.json?'
                        + 'playerstats=PTS/G,AST/G,REB/G';
     const fetchOptions = {
       method: 'get',
@@ -144,7 +144,10 @@ export default class App extends React.Component {
           <h1 className='title'>NBA Player Dashboard</h1>
 
           <div className='PlayerSearchBox-wrapper'>
-            <PlayerSearchBox placeholderText='Player Search' />
+            <PlayerSearchBox
+              placeholderText='Player Search'
+              nbaData={this.state.nbaData}
+            />
           </div>
 
           <div className='all-data-cards-wrapper'>
