@@ -73,10 +73,14 @@ export default class PlayerSearchBox extends React.Component {
  * @param {Object} nbaData - nbaData fetched from sports API
  */
 function filterNbaDataByPlayerName(str, nbaData) {
-  const filteredData = nbaData.filter(datum => {
-    const fullName = datum.player.FirstName + datum.player.LastName;
-    return (fullName.toLowerCase().indexOf(str.toLowerCase()) !== -1);
-  });
+  let filteredData = [];
+
+  if (str.length >= 4) {
+    filteredData = nbaData.filter(datum => {
+      const fullName = datum.player.FirstName + ' ' + datum.player.LastName;
+      return (fullName.toLowerCase().indexOf(str.toLowerCase()) !== -1);
+    });
+  }
 
   return filteredData;
 }

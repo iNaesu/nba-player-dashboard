@@ -2,7 +2,6 @@
 @import '../utilities/layout';
 
 .PlayerSearchBox {
-  text-align: center;
   padding: $base-spacing 0 $base-spacing 0;
 
   input {
@@ -16,5 +15,13 @@
   }
   input::placeholder {
     color: $fg-color;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  .react-autosuggest__suggestions-container {
+    text-align: center;
   }
 }
