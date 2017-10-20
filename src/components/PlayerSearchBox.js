@@ -58,6 +58,7 @@ export default class PlayerSearchBox extends React.Component {
           onSuggestionsClearRequested={this.clearSuggestions}
           getSuggestionValue={getFullName}
           renderSuggestion={renderSuggestion}
+          onSuggestionSelected={this.props.callback}
         />
       </div>
     );
@@ -86,6 +87,8 @@ function getFullName(suggestion) {
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{getFullName(suggestion)}</span>
+    <span>
+      {getFullName(suggestion)}
+    </span>
   );
 }
