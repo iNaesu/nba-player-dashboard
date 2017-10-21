@@ -81,7 +81,7 @@ export default class App extends React.Component {
   componentDidMount() {
     /* Fetch data & trigger rest of the app */
     const nbaDataUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nba/'
-                       + '2016-2017-regular/cumulative_player_stats.json?'
+                       + '2017-2018-regular/cumulative_player_stats.json?'
                        + 'playerstats=PTS/G,AST/G,REB/G';
     const fetchOptions = {
       method: 'get',
@@ -137,6 +137,37 @@ export default class App extends React.Component {
     });
   }
 
+  /* Process current player:
+   * - get player info
+   * - compute similar players
+   */
+  processPlayer = (
+    event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }
+  ) => {
+    const firstName = suggestion.player.FirstName;
+    const lastName = suggestion.player.LastName;
+
+    /* Get player info */
+    const p1 = getPlayerInfo(this.state.nbaData, firstName, lastName);
+    /* Get similar players list */
+    const p2 = getSimilarPlayersList(this.state.nbaData, firstName, lastName);
+
+    Promise.all([p1, p2])
+    .then(values => {
+      const playerInfo = values[0];
+      const similarPlayersList = values[1];
+
+      /* All the data is ready! Set state to trigger app render */
+      this.setState({
+        'playerInfo': playerInfo,
+        'similarPlayersList': similarPlayersList
+      });
+    })
+    .catch(error => {
+      throwError(error);
+    });
+  }
+
   render() {
     return (
       <div className='App'>
@@ -144,7 +175,11 @@ export default class App extends React.Component {
           <h1 className='title'>NBA Player Dashboard</h1>
 
           <div className='PlayerSearchBox-wrapper'>
-            <PlayerSearchBox placeholderText='Player Search' />
+            <PlayerSearchBox
+              placeholderText='Player Search'
+              nbaData={this.state.nbaData}
+              callback={this.processPlayer}
+            />
           </div>
 
           <div className='all-data-cards-wrapper'>
