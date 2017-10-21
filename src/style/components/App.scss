@@ -10,12 +10,13 @@
   flex-direction: row;
   padding-top: 2 * $base-spacing;
   box-sizing: border-box;
-  @media (min-width: $layout-breakpoint) {
-    height: 100vh;
-  }
+  height: 100vh;
+  overflow: scroll;
 }
 
 .content-wrapper {
+  /* So that all-data-cards-wrapper can be absolute pos */
+  position: relative;
   margin-left: 2 * $base-spacing;
   margin-right: 2 * $base-spacing;
   margin-bottom: 2 * $base-spacing;
@@ -32,9 +33,15 @@
 
 .PlayerSearchBox-wrapper {
   width: 100%;
+  /* Make sure dropdown is in front of data cards */
+  z-index: 10;
 }
 
 .all-data-cards-wrapper {
+  /* needs to be absolutely positioned so that player search dropdown does not
+   * move it */
+  position: absolute;
+  top: 16 * $base-spacing;
   width: 100%;
   display: flex;
   flex-direction: column;
