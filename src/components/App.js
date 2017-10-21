@@ -585,6 +585,10 @@ function getDifferenceScore(reference, player) {
     return 999;
   }
 
+  if (reference.player.ID === player.player.ID) {
+    return 999;
+  }
+
   const ptsScore = parseFloat(player.stats.PtsPerGame['#text'])
                   / parseFloat(reference.stats.PtsPerGame['#text']);
 
@@ -606,5 +610,5 @@ function getDifferenceScore(reference, player) {
  */
 function stripPunctuation(str) {
   return str.toLowerCase().replace(/ /g, "_")
-         .replace(/\'/g, '').replace(/\./g, '');
+         .replace(/'/g, '').replace(/\./g, '');
 }

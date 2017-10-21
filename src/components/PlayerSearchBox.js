@@ -75,7 +75,7 @@ export default class PlayerSearchBox extends React.Component {
 function filterNbaDataByPlayerName(str, nbaData) {
   let filteredData = [];
 
-  if (str.length >= 2) {
+  if (str.length >= 3) {
     filteredData = nbaData.filter(datum => {
       const fullName = datum.player.FirstName + ' ' + datum.player.LastName;
       return (fullName.toLowerCase().indexOf(str.toLowerCase()) !== -1);
