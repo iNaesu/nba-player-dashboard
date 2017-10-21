@@ -415,9 +415,14 @@ function getPlayerInfo(nbaData, firstName, lastName) {
     playerInfo.rpg = parseFloat(p.stats.RebPerGame['#text']);
     playerInfo.img = genericPlayerImg;
 
-    /* Try to fetch player image */
+    /* Try to fetch player image. Example request:
+     * - https://nba-players.herokuapp.com/players/james/lebron
+     * Important:
+     * - The player name must not contain . or '
+     * - Spaces in first/last names must be replaced with _ */
     const baseUrl = 'https://nba-players.herokuapp.com/players/';
-    const fullUrl = baseUrl + lastName + '/' + firstName;
+    const fullUrl = baseUrl + stripPunctuation(lastName) + '/'
+                    + stripPunctuation(firstName);
     Promise.race([
       fetch(fullUrl, { mode: 'cors' }),
       timeout(5000, firstName + ' ' + lastName + ' | Image fetch timeout')
@@ -592,4 +597,14 @@ function getDifferenceScore(reference, player) {
   score = Math.abs(1 - ((ptsScore + astScore + rebScore) / 3));
 
   return score;
+}
+
+/**
+ * Returns the given string, stripped of specific punctuations
+ * @param {String} str
+ * @return {String} string stripped of punctuation
+ */
+function stripPunctuation(str) {
+  return str.toLowerCase().replace(/ /g, "_")
+         .replace(/\'/g, '').replace(/\./g, '');
 }
