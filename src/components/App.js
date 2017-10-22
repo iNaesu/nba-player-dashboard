@@ -96,6 +96,7 @@ export default class App extends React.Component {
     ])
     .then(
       response => response.json(),
+      /* Just log error to console. Dont tell the user */
       error => console.log(error)
     )
     /* save nbaData */
@@ -435,6 +436,7 @@ function getPlayerInfo(nbaData, firstName, lastName) {
       resolve(playerInfo);
     })
     .catch(error => {
+      /* Just log error to console. Dont tell the user */
       console.log(error);
       resolve(playerInfo);
     });
@@ -451,11 +453,17 @@ function getFullPositionName(position) {
   let fullPositionName = 'Invalid';
 
   switch(position) {
+    case 'G':
+      fullPositionName = 'Guard';
+      break;
     case 'PG':
       fullPositionName = 'Point Guard';
       break;
     case 'SG':
       fullPositionName = 'Shooting Guard';
+      break;
+    case 'F':
+      fullPositionName = 'Forward';
       break;
     case 'SF':
       fullPositionName = 'Small Forward';
@@ -511,7 +519,7 @@ function getSimilarPlayersList(nbaData, firstName, lastName) {
     /* Order nbaData by similarity & keep the 3 most similar players */
     const mostSimilarPlayers = nbaData.sort((a, b) => {
       return (a.differenceScore - b.differenceScore);
-    }).slice(1, 4);
+    }).slice(0, 3);
 
     /* Get playerInfo of the top 3 most similar players */
     let promiseList = [];
@@ -579,9 +587,7 @@ function getPlayerFromList(nbaData, firstName, lastName) {
  * @return {Number} difference
  */
 function getDifferenceScore(reference, player) {
-  let score = 0;
-
-  if (reference.player.Position !== player.player.Position) {
+  if (!compatiblePosition(reference.player.Position, player.player.Position)) {
     return 999;
   }
 
@@ -589,18 +595,31 @@ function getDifferenceScore(reference, player) {
     return 999;
   }
 
-  const ptsScore = parseFloat(player.stats.PtsPerGame['#text'])
-                  / parseFloat(reference.stats.PtsPerGame['#text']);
+  const referenceStatList = [
+    parseFloat(reference.stats.PtsPerGame['#text']),
+    parseFloat(reference.stats.AstPerGame['#text']),
+    parseFloat(reference.stats.RebPerGame['#text']),
+  ];
 
-  const astScore = parseFloat(player.stats.AstPerGame['#text'])
-                  / parseFloat(reference.stats.AstPerGame['#text']);
+  const playerStatList = [
+    parseFloat(player.stats.PtsPerGame['#text']),
+    parseFloat(player.stats.AstPerGame['#text']),
+    parseFloat(player.stats.RebPerGame['#text']),
+  ];
 
-  const rebScore = parseFloat(player.stats.RebPerGame['#text'])
-                  / parseFloat(reference.stats.RebPerGame['#text']);
+  let scoreSum = 0;
+  let score = 0;
+  for (let i = 0; i < referenceStatList.length; i++) {
+    /* Avoid 0/0 error */
+    if (referenceStatList[i] === 0) {
+      score = playerStatList[i];
+    } else {
+      score = playerStatList[i] / referenceStatList[i];
+    }
+    scoreSum += score;
+  }
 
-  score = Math.abs(1 - ((ptsScore + astScore + rebScore) / 3));
-
-  return score;
+  return Math.abs(1 - (scoreSum / 3));
 }
 
 /**
@@ -611,4 +630,57 @@ function getDifferenceScore(reference, player) {
 function stripPunctuation(str) {
   return str.toLowerCase().replace(/ /g, "_")
          .replace(/'/g, '').replace(/\./g, '');
+}
+
+/**
+ * Returns a bool depending on whether the test position is compatible with the
+ * reference position.
+ *
+ * @param {String} referencePos
+ * @param {String} testPos
+ * @return {Bool}
+ */
+function compatiblePosition(referencePos, testPos) {
+  let isCompatible = false;
+
+  switch (referencePos) {
+    case 'G':
+      if ((testPos === 'G') || (testPos === 'PG') || (testPos === 'SG')) {
+        isCompatible = true;
+      }
+      break;
+    case 'PG':
+      if ((testPos === 'G') || (testPos === 'PG')) {
+        isCompatible = true;
+      }
+      break;
+    case 'SG':
+      if ((testPos === 'G') || (testPos === 'SG')) {
+        isCompatible = true;
+      }
+      break;
+    case 'F':
+      if ((testPos === 'F') || (testPos === 'SF') || (testPos === 'PF')) {
+        isCompatible = true;
+      }
+      break;
+    case 'SF':
+      if ((testPos === 'F') || (testPos === 'SF')) {
+        isCompatible = true;
+      }
+      break;
+    case 'PF':
+      if ((testPos === 'F') || (testPos === 'PF')) {
+        isCompatible = true;
+      }
+      break;
+    case 'C':
+      if (testPos === 'C') {
+        isCompatible = true;
+      }
+      break;
+    default:
+  }
+
+  return isCompatible;
 }
