@@ -1,0 +1,30 @@
+@import '../utilities/colors';
+@import '../utilities/layout';
+
+.AppStateScreen-loading, .AppStateScreen-error, .AppStateScreen-undefined {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  background-color: rgba(25, 25, 25, 0.8);
+}
+
+.AppStateScreen-loading {
+  .fa-question-circle {
+    display: none;
+  }
+}
+
+.AppStateScreen-error {
+  .fa-question-circle, .fa-circle-notch {
+    display: none;
+  }
+}
+
+.AppStateScreen-ready {
+  display: none;
+}

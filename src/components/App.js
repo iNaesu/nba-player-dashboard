@@ -1,12 +1,12 @@
 import React from 'react';
 
 import PlayerSearchBox from './PlayerSearchBox.js'
+import AppStateScreen from './AppStateScreen.js'
 import ProfileCard from './ProfileCard.js'
 import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
 import { data20162017 } from '../2016-2017-data.js'
-import throwError from '../error.js'
 
 /* Import Style */
 import '../style/components/App.css';
@@ -18,11 +18,12 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      'appState': 'loading',
       'nbaData': data20162017.cumulativeplayerstats.playerstatsentry,
       'playerInfo': {
         'firstName': '',
         'lastName': '',
-        'img': '',
+        'img': genericPlayerImg,
         'team': '',
         'position': '',
         'ppg': 0,
@@ -33,7 +34,7 @@ export default class App extends React.Component {
         {
           'firstName': '',
           'lastName': '',
-          'img': '',
+          'img': genericPlayerImg,
           'ppg': 0,
           'apg': 0,
           'rpg': 0
@@ -41,7 +42,7 @@ export default class App extends React.Component {
         {
           'firstName': '',
           'lastName': '',
-          'img': '',
+          'img': genericPlayerImg,
           'ppg': 0,
           'apg': 0,
           'rpg': 0
@@ -49,7 +50,7 @@ export default class App extends React.Component {
         {
           'firstName': '',
           'lastName': '',
-          'img': '',
+          'img': genericPlayerImg,
           'ppg': 0,
           'apg': 0,
           'rpg': 0
@@ -79,6 +80,9 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({
+      'appState': 'loading'
+    });
     /* Fetch data & trigger rest of the app */
     const nbaDataUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nba/'
                        + '2017-2018-regular/cumulative_player_stats.json?'
@@ -92,7 +96,7 @@ export default class App extends React.Component {
     }
     Promise.race([
       fetch(nbaDataUrl, fetchOptions),
-      timeout(5000, 'NBA data fetch failed. Using 2016-2017 data instead')
+      timeout(5000, 'NBA data fetch failed. Using cached data instead')
     ])
     .then(
       response => response.json(),
@@ -127,13 +131,17 @@ export default class App extends React.Component {
 
         /* All the data is ready! Set state to trigger app render */
         this.setState({
+          'appState': 'ready',
           'playerInfo': playerInfo,
           'similarPlayersList': similarPlayersList,
           'leagueStats': leagueStats
         });
       })
       .catch(error => {
-        throwError(error);
+        this.setState({
+          'appState': 'error'
+        });
+        console.log('Error: ' + error);
       });
     });
   }
@@ -148,6 +156,10 @@ export default class App extends React.Component {
     const firstName = suggestion.player.FirstName;
     const lastName = suggestion.player.LastName;
 
+    /* Display loading screen */
+    this.setState({
+      'appState': 'loading'
+    });
     /* Get player info */
     const p1 = getPlayerInfo(this.state.nbaData, firstName, lastName);
     /* Get similar players list */
@@ -161,17 +173,23 @@ export default class App extends React.Component {
       /* All the data is ready! Set state to trigger app render */
       this.setState({
         'playerInfo': playerInfo,
-        'similarPlayersList': similarPlayersList
+        'similarPlayersList': similarPlayersList,
+        'appState': 'ready'
       });
     })
     .catch(error => {
-      throwError(error);
+      this.setState({
+        'appState': 'error'
+      });
+      console.log('Error: ' + error);
     });
   }
 
   render() {
     return (
       <div className='App'>
+        <AppStateScreen appState={this.state.appState} />
+
         <div className='content-wrapper'>
           <h1 className='title'>NBA Player Dashboard</h1>
 
@@ -284,10 +302,16 @@ export default class App extends React.Component {
  */
 function getLeagueLeader(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
-    throwError('getLeagueLeader() | nbaData is not an array');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('Error: getLeagueLeader() | nbaData is not an array');
   }
   if (typeof(statDesc) !== 'string') {
-    throwError('getLeagueLeader() | statDesc is not a string');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('Error: getLeagueLeader() | statDesc is not a string');
   }
 
   let leagueLeader = {
@@ -317,10 +341,16 @@ function getLeagueLeader(nbaData, statDesc) {
  */
 function getLeagueAverage(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
-    throwError('getLeagueAverage() | nbaData is not an array');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('Error: getLeagueAverage() | nbaData is not an array');
   }
   if (typeof(statDesc) !== 'string') {
-    throwError('getLeagueAverage() | statDesc is not a string');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('getLeagueAverage() | statDesc is not a string');
   }
 
   const total = nbaData.reduce((currentTotal, datum) => {
