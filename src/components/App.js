@@ -6,7 +6,7 @@ import ProfileCard from './ProfileCard.js'
 import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
-import { data20162017 } from '../2016-2017-data.js'
+import { cachedData } from '../cachedData.js'
 
 /* Import Style */
 import '../style/components/App.css';
@@ -19,7 +19,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       'appState': 'loading',
-      'nbaData': data20162017.cumulativeplayerstats.playerstatsentry,
+      'nbaData': cachedData.cumulativeplayerstats.playerstatsentry,
       'playerInfo': {
         'firstName': '',
         'lastName': '',
