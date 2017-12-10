@@ -7,7 +7,6 @@ import StatCard from './StatCard.js'
 import SimilarPlayersCard from './SimilarPlayersCard.js'
 import LeagueComparisonCard from './LeagueComparisonCard.js'
 import { data20162017 } from '../2016-2017-data.js'
-import throwError from '../error.js'
 
 /* Import Style */
 import '../style/components/App.css';
@@ -97,7 +96,7 @@ export default class App extends React.Component {
     }
     Promise.race([
       fetch(nbaDataUrl, fetchOptions),
-      timeout(5000, 'NBA data fetch failed. Using 2016-2017 data instead')
+      timeout(5000, 'NBA data fetch failed. Using cached data instead')
     ])
     .then(
       response => response.json(),
@@ -139,7 +138,10 @@ export default class App extends React.Component {
         });
       })
       .catch(error => {
-        throwError(error);
+        this.setState({
+          'appState': 'error'
+        });
+        console.log('Error: ' + error);
       });
     });
   }
@@ -176,7 +178,10 @@ export default class App extends React.Component {
       });
     })
     .catch(error => {
-      throwError(error);
+      this.setState({
+        'appState': 'error'
+      });
+      console.log('Error: ' + error);
     });
   }
 
@@ -297,10 +302,16 @@ export default class App extends React.Component {
  */
 function getLeagueLeader(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
-    throwError('getLeagueLeader() | nbaData is not an array');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('Error: getLeagueLeader() | nbaData is not an array');
   }
   if (typeof(statDesc) !== 'string') {
-    throwError('getLeagueLeader() | statDesc is not a string');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('Error: getLeagueLeader() | statDesc is not a string');
   }
 
   let leagueLeader = {
@@ -330,10 +341,16 @@ function getLeagueLeader(nbaData, statDesc) {
  */
 function getLeagueAverage(nbaData, statDesc) {
   if (!Array.isArray(nbaData)) {
-    throwError('getLeagueAverage() | nbaData is not an array');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('Error: getLeagueAverage() | nbaData is not an array');
   }
   if (typeof(statDesc) !== 'string') {
-    throwError('getLeagueAverage() | statDesc is not a string');
+    this.setState({
+      'appState': 'error'
+    });
+    console.log('getLeagueAverage() | statDesc is not a string');
   }
 
   const total = nbaData.reduce((currentTotal, datum) => {

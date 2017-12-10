@@ -1,7 +1,7 @@
 @import '../utilities/colors';
 @import '../utilities/layout';
 
-.AppStateScreen-loading, .AppState-loading, .AppState-undefined {
+.AppStateScreen-loading, .AppStateScreen-error, .AppStateScreen-undefined {
   position: absolute;
   width: 100vw;
   height: 100vh;
