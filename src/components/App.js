@@ -24,7 +24,7 @@ export default class App extends React.Component {
       'playerInfo': {
         'firstName': '',
         'lastName': '',
-        'img': '',
+        'img': genericPlayerImg,
         'team': '',
         'position': '',
         'ppg': 0,
@@ -35,7 +35,7 @@ export default class App extends React.Component {
         {
           'firstName': '',
           'lastName': '',
-          'img': '',
+          'img': genericPlayerImg,
           'ppg': 0,
           'apg': 0,
           'rpg': 0
@@ -43,7 +43,7 @@ export default class App extends React.Component {
         {
           'firstName': '',
           'lastName': '',
-          'img': '',
+          'img': genericPlayerImg,
           'ppg': 0,
           'apg': 0,
           'rpg': 0
@@ -51,7 +51,7 @@ export default class App extends React.Component {
         {
           'firstName': '',
           'lastName': '',
-          'img': '',
+          'img': genericPlayerImg,
           'ppg': 0,
           'apg': 0,
           'rpg': 0

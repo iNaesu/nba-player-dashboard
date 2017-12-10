@@ -23,7 +23,9 @@ export default class AppStateScreen extends React.Component {
     }
 
     return(
-      <div className={className}>{text}</div>
+      <div className={className}>
+        <h1>{text}</h1>
+      </div>
     );
   }
 }
