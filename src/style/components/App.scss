@@ -8,7 +8,6 @@
   background-size: cover;
   display: flex;
   flex-direction: row;
-  padding-top: 2 * $base-spacing;
   box-sizing: border-box;
   height: 100vh;
   overflow: scroll;
@@ -17,6 +16,7 @@
 .content-wrapper {
   /* So that all-data-cards-wrapper can be absolute pos */
   position: relative;
+  margin-top: 2 * $base-spacing;
   margin-left: 2 * $base-spacing;
   margin-right: 2 * $base-spacing;
   margin-bottom: 2 * $base-spacing;
