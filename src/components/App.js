@@ -96,7 +96,7 @@ export default class App extends React.Component {
     }
     Promise.race([
       fetch(nbaDataUrl, fetchOptions),
-      timeout(5000, 'NBA data fetch failed. Using cached data instead')
+      timeout(7500, 'NBA data fetch failed. Using cached data instead')
     ])
     .then(
       response => response.json(),
@@ -456,7 +456,7 @@ function getPlayerInfo(nbaData, firstName, lastName) {
                     + stripPunctuation(firstName);
     Promise.race([
       fetch(fullUrl, { mode: 'cors' }),
-      timeout(5000, firstName + ' ' + lastName + ' | Image fetch timeout')
+      timeout(7500, firstName + ' ' + lastName + ' | Image fetch timeout')
     ])
     .then(
       response => response.blob()
