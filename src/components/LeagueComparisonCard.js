@@ -103,102 +103,102 @@ export default function LeagueComparisonCard(props) {
   );
 
   const yMax = 35;
-  let leagueComparisonCard = {};
+
+  /* Used on large screens */
+  const verticalCard = <div className='LeagueComparisonCard card'>
+    <div className='card-title'>
+      Vs. League
+    </div>
+
+    <div className='LeagueComparisonCard-graph-wrapper'>
+      <VictoryChart
+        domain={{x: [0.5, 3.5], y: [0, yMax]}}
+        height={500}
+        padding={{ top: 50, bottom: 75, left: 100, right: 70 }}
+      >
+
+        <VictoryAxis
+          tickValues={statList.map((stat) => stat['statType'])}
+          style={{
+            axis: {stroke: 'none'},
+            tickLabels: {
+              fill: fgColor,
+              fontSize: axisFontSize,
+              fontFamily: fontFamily
+            }
+          }}
+        />
+
+        <VictoryAxis
+          dependentAxis tickValues={range(0, yMax, 5)}
+          style={{
+            axis: {stroke: 'none'},
+            tickLabels: {
+              fill: fgColor,
+              fontSize: axisFontSize,
+              fontFamily: fontFamily
+            },
+            grid: {stroke: accentColor},
+          }}
+        />
+
+        {groupOfBarsList}
+
+      </VictoryChart>
+
+    </div>
+  </div>
+
+  /* Used on smaller screens */
+  const horizontalCard = <div className='LeagueComparisonCard card'>
+    <div className='card-title'>
+      Vs. League
+    </div>
+
+    <div className='LeagueComparisonCard-graph-wrapper'>
+      <VictoryChart
+        domain={{y: [0.5, 3.5], x: [0, yMax]}}
+        height={350}
+        padding={{ top: 25, bottom: 75, left: 70, right: 70 }}
+      >
+
+        <VictoryAxis dependentAxis
+          tickValues={statList.map((stat) => stat['statType'])}
+          style={{
+            axis: {stroke: 'none'},
+            tickLabels: {
+              fill: fgColor,
+              fontSize: axisFontSize,
+              fontFamily: fontFamily
+            }
+          }}
+        />
+
+        <VictoryAxis
+          tickValues={range(0, yMax, 5)}
+          style={{
+            axis: {stroke: 'none'},
+            tickLabels: {
+              fill: fgColor,
+              fontSize: axisFontSize,
+              fontFamily: fontFamily
+            },
+            grid: {stroke: accentColor},
+          }}
+        />
+
+        {groupOfBarsList}
+
+      </VictoryChart>
+
+    </div>
+  </div>
 
   if (screenWidth >= layoutBreakpoint) {
-    (
-      leagueComparisonCard = <div className='LeagueComparisonCard card'>
-        <div className='card-title'>
-          Vs. League
-        </div>
-
-        <div className='LeagueComparisonCard-graph-wrapper'>
-          <VictoryChart
-            domain={{x: [0.5, 3.5], y: [0, yMax]}}
-            height={500}
-            padding={{ top: 50, bottom: 75, left: 100, right: 70 }}
-          >
-
-            <VictoryAxis
-              tickValues={statList.map((stat) => stat['statType'])}
-              style={{
-                axis: {stroke: 'none'},
-                tickLabels: {
-                  fill: fgColor,
-                  fontSize: axisFontSize,
-                  fontFamily: fontFamily
-                }
-              }}
-            />
-
-            <VictoryAxis
-              dependentAxis tickValues={range(0, yMax, 5)}
-              style={{
-                axis: {stroke: 'none'},
-                tickLabels: {
-                  fill: fgColor,
-                  fontSize: axisFontSize,
-                  fontFamily: fontFamily
-                },
-                grid: {stroke: accentColor},
-              }}
-            />
-
-            {groupOfBarsList}
-
-          </VictoryChart>
-
-        </div>
-      </div>
-    );
+    return verticalCard;
   } else {
-    (
-      leagueComparisonCard = <div className='LeagueComparisonCard card'>
-        <div className='card-title'>
-          Vs. League
-        </div>
-
-        <div className='LeagueComparisonCard-graph-wrapper'>
-          <VictoryChart
-            domain={{y: [0.5, 3.5], x: [0, yMax]}}
-            height={350}
-            padding={{ top: 25, bottom: 75, left: 70, right: 70 }}
-          >
-
-            <VictoryAxis dependentAxis
-              tickValues={statList.map((stat) => stat['statType'])}
-              style={{
-                axis: {stroke: 'none'},
-                tickLabels: {
-                  fill: fgColor,
-                  fontSize: axisFontSize,
-                  fontFamily: fontFamily
-                }
-              }}
-            />
-
-            <VictoryAxis
-              tickValues={range(0, yMax, 5)}
-              style={{
-                axis: {stroke: 'none'},
-                tickLabels: {
-                  fill: fgColor,
-                  fontSize: axisFontSize,
-                  fontFamily: fontFamily
-                },
-                grid: {stroke: accentColor},
-              }}
-            />
-
-            {groupOfBarsList}
-
-          </VictoryChart>
-
-        </div>
-      </div>
-    );
+    return horizontalCard;
   }
-  return leagueComparisonCard;
 }
 
 class CustomLabel extends React.Component {
