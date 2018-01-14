@@ -53,7 +53,7 @@ export default function LeagueComparisonCard(props) {
 
   const groupOfBarsList = statList.map((stat, idx) =>
     <VictoryGroup horizontal={isHorizontalBars}
-      key={stat.statType} offset={20} style={{ data: {width: 15}}}
+      key={stat.statType} offset={22} style={{ data: {width: 17}}}
     >
 
       <VictoryBar
