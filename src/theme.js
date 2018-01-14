@@ -8,5 +8,5 @@ export const accentColor = '#676767';
 
 /* Typography */
 export const fontFamily = "'Montserrat', sans-serif";
-export const pFontSize = 35;
+export const pFontSize = 38;
 export const h2FontSize = 75;
