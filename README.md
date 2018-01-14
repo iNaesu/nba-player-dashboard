@@ -3,7 +3,7 @@ NBA Player Dashboard
 
 A dashboard app that displays NBA player profiles &amp; statistics
 
-Live link - https://inaesu.github.io/nba-player-dashboard/
+[See live](https://inaesu.github.io/nba-player-dashboard/)
 
 
 Built with
