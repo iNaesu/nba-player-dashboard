@@ -1,11 +1,8 @@
 {
-  "main.css": "static/css/main.06436371.css",
-  "main.css.map": "static/css/main.06436371.css.map",
-  "main.js": "static/js/main.902cd1b1.js",
-  "main.js.map": "static/js/main.902cd1b1.js.map",
+  "main.css": "static/css/main.0e4a15cc.css",
+  "main.css.map": "static/css/main.0e4a15cc.css.map",
+  "main.js": "static/js/main.4886ebaa.js",
+  "main.js.map": "static/js/main.4886ebaa.js.map",
   "static/media/background.png": "static/media/background.39974e5e.png",
-  "static/media/curry.png": "static/media/curry.e5f4cc12.png",
-  "static/media/irving.png": "static/media/irving.e776d7bc.png",
-  "static/media/wall.png": "static/media/wall.ec1dc858.png",
-  "static/media/westbrook.png": "static/media/westbrook.3252899a.png"
+  "static/media/generic-player.png": "static/media/generic-player.1ee5ac5b.png"
 }
