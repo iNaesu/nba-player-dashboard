@@ -285,7 +285,23 @@ export default class App extends React.Component {
               playerRpg={this.state.playerInfo.rpg}
               averageRpg={this.state.leagueStats.rpg.leagueAverageValue}
             />
+          </div>
 
+          <div className='about-wrapper'>
+            {'Built with '}
+            <a href='https://github.com/facebookincubator/create-react-app'
+            target='_blank' rel='noopener noreferrer'>{'Create React App'}</a> {' & '}
+            <a href='http://formidable.com/open-source/victory/' target='_blank' rel='noopener noreferrer'>
+            {'Victory Charts'}</a>
+
+            <div className='social-icons'>
+              <a href='https://github.com/iNaesu/nba-player-dashboard' target='_blank' rel='noopener noreferrer'>
+                <i className="fab fa-2x fa-github"></i>
+              </a>
+              <a href='https://seanlaw.io' target='_blank' rel='noopener noreferrer'>
+                <i className="fas fa-2x fa-file-alt"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>

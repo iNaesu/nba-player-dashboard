@@ -77,3 +77,21 @@
 #rpg-card {
   margin-right: 0;
 }
+
+.about-wrapper {
+  color: $accent-color;
+
+  a {
+    text-decoration: none;
+    color: $fg-color;
+  }
+
+  .social-icons {
+    margin-top: $base-spacing;
+    padding: $base-spacing;
+
+    a {
+      padding: $base-spacing;
+    }
+  }
+}
