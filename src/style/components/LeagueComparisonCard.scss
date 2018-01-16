@@ -1,9 +1,8 @@
 @import '../utilities/layout';
 
 .LeagueComparisonCard {
-  order: 1;
+  order: 2;
   @media (min-width: $layout-breakpoint) {
-    order: 2;
     width: 24%;
   }
 }

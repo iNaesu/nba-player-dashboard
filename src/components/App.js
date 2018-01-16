@@ -201,91 +201,109 @@ export default class App extends React.Component {
             />
           </div>
 
-          <div className='all-data-cards-wrapper'>
+          <div className='all-data-cards-about-wrapper'>
+            <div className='all-data-cards-wrapper'>
 
-            <div className='ProfileCard-StatCards-wrapper'>
-              <ProfileCard
-                firstName={this.state.playerInfo.firstName}
-                lastName={this.state.playerInfo.lastName}
-                img={this.state.playerInfo.img}
-                team={this.state.playerInfo.team}
-                position={this.state.playerInfo.position}
+              <div className='ProfileCard-StatCards-wrapper'>
+                <ProfileCard
+                  firstName={this.state.playerInfo.firstName}
+                  lastName={this.state.playerInfo.lastName}
+                  img={this.state.playerInfo.img}
+                  team={this.state.playerInfo.team}
+                  position={this.state.playerInfo.position}
+                />
+
+                <div className='StatCards-wrapper'>
+                  <StatCard
+                    id='ppg-card'
+                    statName={['Points', 'Per Game']}
+                    value={this.state.playerInfo.ppg}
+                    leagueLeaderValue={
+                      this.state.leagueStats.ppg.leagueLeaderValue
+                    }
+                  />
+                  <StatCard
+                    id='apg-card'
+                    statName={['Assists', 'Per Game']}
+                    value={this.state.playerInfo.apg}
+                    leagueLeaderValue={
+                      this.state.leagueStats.apg.leagueLeaderValue
+                    }
+                  />
+                  <StatCard
+                    id='rpg-card'
+                    statName={['Rebounds', 'Per Game']}
+                    value={this.state.playerInfo.rpg}
+                    leagueLeaderValue={
+                      this.state.leagueStats.rpg.leagueLeaderValue
+                    }
+                  />
+                </div>
+              </div>
+
+              <SimilarPlayersCard
+                firstName0={this.state.similarPlayersList[0].firstName}
+                lastName0={this.state.similarPlayersList[0].lastName}
+                img0={this.state.similarPlayersList[0].img}
+                ppg0={this.state.similarPlayersList[0].ppg}
+                apg0={this.state.similarPlayersList[0].apg}
+                rpg0={this.state.similarPlayersList[0].rpg}
+
+                firstName1={this.state.similarPlayersList[1].firstName}
+                lastName1={this.state.similarPlayersList[1].lastName}
+                img1={this.state.similarPlayersList[1].img}
+                ppg1={this.state.similarPlayersList[1].ppg}
+                apg1={this.state.similarPlayersList[1].apg}
+                rpg1={this.state.similarPlayersList[1].rpg}
+
+                firstName2={this.state.similarPlayersList[2].firstName}
+                lastName2={this.state.similarPlayersList[2].lastName}
+                img2={this.state.similarPlayersList[2].img}
+                ppg2={this.state.similarPlayersList[2].ppg}
+                apg2={this.state.similarPlayersList[2].apg}
+                rpg2={this.state.similarPlayersList[2].rpg}
               />
 
-              <div className='StatCards-wrapper'>
-                <StatCard
-                  id='ppg-card'
-                  statName={['Points', 'Per Game']}
-                  value={this.state.playerInfo.ppg}
-                  leagueLeaderValue={
-                    this.state.leagueStats.ppg.leagueLeaderValue
-                  }
-                />
-                <StatCard
-                  id='apg-card'
-                  statName={['Assists', 'Per Game']}
-                  value={this.state.playerInfo.apg}
-                  leagueLeaderValue={
-                    this.state.leagueStats.apg.leagueLeaderValue
-                  }
-                />
-                <StatCard
-                  id='rpg-card'
-                  statName={['Rebounds', 'Per Game']}
-                  value={this.state.playerInfo.rpg}
-                  leagueLeaderValue={
-                    this.state.leagueStats.rpg.leagueLeaderValue
-                  }
-                />
-              </div>
+              <LeagueComparisonCard
+                firstName={this.state.playerInfo.firstName}
+                lastName={this.state.playerInfo.lastName}
+
+                ppgLeaderFirstName={this.state.leagueStats.ppg.firstName}
+                ppgLeaderLastName={this.state.leagueStats.ppg.lastName}
+                leaderPpg={this.state.leagueStats.ppg.leagueLeaderValue}
+                playerPpg={this.state.playerInfo.ppg}
+                averagePpg={this.state.leagueStats.ppg.leagueAverageValue}
+
+                apgLeaderFirstName={this.state.leagueStats.apg.firstName}
+                apgLeaderLastName={this.state.leagueStats.apg.lastName}
+                leaderApg={this.state.leagueStats.apg.leagueLeaderValue}
+                playerApg={this.state.playerInfo.apg}
+                averageApg={this.state.leagueStats.apg.leagueAverageValue}
+
+                rpgLeaderFirstName={this.state.leagueStats.rpg.firstName}
+                rpgLeaderLastName={this.state.leagueStats.rpg.lastName}
+                leaderRpg={this.state.leagueStats.rpg.leagueLeaderValue}
+                playerRpg={this.state.playerInfo.rpg}
+                averageRpg={this.state.leagueStats.rpg.leagueAverageValue}
+              />
             </div>
 
-            <SimilarPlayersCard
-              firstName0={this.state.similarPlayersList[0].firstName}
-              lastName0={this.state.similarPlayersList[0].lastName}
-              img0={this.state.similarPlayersList[0].img}
-              ppg0={this.state.similarPlayersList[0].ppg}
-              apg0={this.state.similarPlayersList[0].apg}
-              rpg0={this.state.similarPlayersList[0].rpg}
+            <div className='about-wrapper'>
+              {'Built with '}
+              <a href='https://github.com/facebookincubator/create-react-app'
+              target='_blank' rel='noopener noreferrer'>{'Create React App'}</a> {' & '}
+              <a href='http://formidable.com/open-source/victory/' target='_blank' rel='noopener noreferrer'>
+              {'Victory Charts'}</a>
 
-              firstName1={this.state.similarPlayersList[1].firstName}
-              lastName1={this.state.similarPlayersList[1].lastName}
-              img1={this.state.similarPlayersList[1].img}
-              ppg1={this.state.similarPlayersList[1].ppg}
-              apg1={this.state.similarPlayersList[1].apg}
-              rpg1={this.state.similarPlayersList[1].rpg}
-
-              firstName2={this.state.similarPlayersList[2].firstName}
-              lastName2={this.state.similarPlayersList[2].lastName}
-              img2={this.state.similarPlayersList[2].img}
-              ppg2={this.state.similarPlayersList[2].ppg}
-              apg2={this.state.similarPlayersList[2].apg}
-              rpg2={this.state.similarPlayersList[2].rpg}
-            />
-
-            <LeagueComparisonCard
-              firstName={this.state.playerInfo.firstName}
-              lastName={this.state.playerInfo.lastName}
-
-              ppgLeaderFirstName={this.state.leagueStats.ppg.firstName}
-              ppgLeaderLastName={this.state.leagueStats.ppg.lastName}
-              leaderPpg={this.state.leagueStats.ppg.leagueLeaderValue}
-              playerPpg={this.state.playerInfo.ppg}
-              averagePpg={this.state.leagueStats.ppg.leagueAverageValue}
-
-              apgLeaderFirstName={this.state.leagueStats.apg.firstName}
-              apgLeaderLastName={this.state.leagueStats.apg.lastName}
-              leaderApg={this.state.leagueStats.apg.leagueLeaderValue}
-              playerApg={this.state.playerInfo.apg}
-              averageApg={this.state.leagueStats.apg.leagueAverageValue}
-
-              rpgLeaderFirstName={this.state.leagueStats.rpg.firstName}
-              rpgLeaderLastName={this.state.leagueStats.rpg.lastName}
-              leaderRpg={this.state.leagueStats.rpg.leagueLeaderValue}
-              playerRpg={this.state.playerInfo.rpg}
-              averageRpg={this.state.leagueStats.rpg.leagueAverageValue}
-            />
-
+              <div className='social-icons'>
+                <a href='https://github.com/iNaesu/nba-player-dashboard' target='_blank' rel='noopener noreferrer'>
+                  <i className="fab fa-2x fa-github"></i>
+                </a>
+                <a href='https://seanlaw.io' target='_blank' rel='noopener noreferrer'>
+                  <i className="fas fa-2x fa-file-alt"></i>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
