@@ -300,7 +300,7 @@ export default class App extends React.Component {
                   <i className="fab fa-2x fa-github"></i>
                 </a>
                 <a href='https://seanlaw.io' target='_blank' rel='noopener noreferrer'>
-                  <i className="fas fa-2x fa-file-alt"></i>
+                  <i className="fas fa-2x fa-user-circle"></i>
                 </a>
               </div>
             </div>
